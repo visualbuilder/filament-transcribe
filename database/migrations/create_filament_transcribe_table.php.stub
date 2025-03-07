@@ -1,0 +1,46 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+use Visualbuilder\FilamentTranscribe\Enums\TranscriptStatus;
+
+return new class extends Migration
+{
+    /**
+     * Run the migrations.
+     */
+    public function up(): void
+    {
+        Schema::create('transcripts', function (Blueprint $table) {
+            $table->id();
+            $table->nullableMorphs('owner');
+            $table->unsignedInteger('duration_seconds')->default(0);
+            $table->unsignedInteger('speakers')->default(2);
+            $table->string('title')->nullable();
+            $table->enum('status',TranscriptStatus::values())->default('pending');
+            $table->boolean('redact_pii')->default(true);
+            $table->string('output_file')->nullable();
+            $table->text('transcribed_text')->nullable();
+            $table->text('transcribed_html')->nullable();
+            $table->json('speaker_names')->nullable();
+            $table->timestamps();
+            $table->softDeletes();
+            /**
+             * Custom Relations
+             */
+            $table->foreignId('order_id')->nullable()->constrained();
+            $table->foreignId('coaching_session_id')->nullable()->constrained();
+            $table->foreignId('end_user_id')->nullable()->constrained();
+
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
+    {
+        Schema::dropIfExists('transcripts');
+    }
+};
