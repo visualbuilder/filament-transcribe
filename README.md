@@ -56,6 +56,25 @@ npm install --save-dev laravel-echo pusher-js
 npm run build
 ```
 
+### Setup Broadcast Auth and Route
+
+In the Broadcast provider add your auth provider (we have admin guard you may not)
+```php
+    public function boot(): void
+    {
+        Broadcast::routes([ 'middleware' => ['web', 'auth:admin']]);
+```
+
+In routes/channels.php create the channel
+
+```php
+Broadcast::channel('transcript.{transcriptId}', function ($user, $transcriptId) {
+    return true;
+    // Optionally check if the user has permission to see this transcript
+    //return Transcript::where('id', $transcriptId)->where('owner_id', $user->id)->exists();
+});
+```
+
 ### Setup Filament to use broadcasts in the panel provider
 
 ```php

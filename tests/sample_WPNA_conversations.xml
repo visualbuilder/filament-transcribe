@@ -1,0 +1,221 @@
+<speak>
+    <!-- Conversation 1: Ergonomic Assessment -->
+    <p>
+        <voice language="en-GB" gender="male">
+            Good morning! I'm Mike, your ergonomic assessor. It’s lovely to meet you on this sunny morning. How are you feeling today? I hope the traffic wasn’t too hectic coming in.
+        </voice>
+        <break time="800ms"/>
+        <voice language="en-GB" gender="female">
+            Good morning, Mike! Actually, I took the bus, so it wasn’t bad at all. I’m feeling okay, just eager to sort out my workspace to ease some of the discomfort.
+        </voice>
+        <break time="800ms"/>
+        <voice language="en-GB" gender="male">
+            I’m glad to hear the commute was smooth. Making your workspace comfortable is exactly what I’m here for. Could I just confirm your full name and date of birth for our records before we get started?
+        </voice>
+        <break time="750ms"/>
+        <voice language="en-GB" gender="female">
+            Sure, it’s Jane Doe, born on the 15th of June, 1985.
+        </voice>
+        <break time="800ms"/>
+        <voice language="en-GB" gender="male">
+            Thank you, Jane. Now, could you start by describing any discomfort or strain you experience while working?
+        </voice>
+        <break time="750ms"/>
+        <voice language="en-GB" gender="female">
+            I spend about 8 hours a day at my desk, and I’ve been having lower back pain and wrist discomfort lately.
+        </voice>
+        <break time="750ms"/>
+        <voice language="en-GB" gender="male">
+            Understood. Let’s start with your chair. Do you know if it has <emphasis level="moderate">lumbar support</emphasis>?
+        </voice>
+        <break time="750ms"/>
+        <voice language="en-GB" gender="female">
+            I believe so, but I don’t think it’s adjustable.
+        </voice>
+        <break time="750ms"/>
+        <voice language="en-GB" gender="male">
+            That might be an issue. Your lower back needs support at the <emphasis level="moderate">L4-L5 region</emphasis> to maintain a neutral spine.
+            We may need to replace it with an <emphasis level="moderate">adjustable ergonomic chair</emphasis>.
+            Now, what about your keyboard and mouse? Are you using a <emphasis level="moderate">wrist rest</emphasis>?
+        </voice>
+        <break time="750ms"/>
+        <voice language="en-GB" gender="female">
+            No, just a standard keyboard. My wrist feels strained, especially after long typing sessions.
+        </voice>
+        <break time="750ms"/>
+        <voice language="en-GB" gender="male">
+            That could be <emphasis level="moderate">repetitive strain injury, RSI</emphasis>, developing.
+            I recommend a <emphasis level="moderate">split ergonomic keyboard</emphasis> and a <emphasis level="moderate">vertical mouse</emphasis> to reduce ulnar deviation.
+            Also, let’s check your screen position. It should be at <emphasis level="moderate">eye level to avoid cervical strain</emphasis>.
+        </voice>
+        <break time="750ms"/>
+        <voice language="en-GB" gender="female">
+            Oh, my screen is definitely too low—I’m always looking down.
+        </voice>
+        <break time="750ms"/>
+        <voice language="en-GB" gender="male">
+            A <emphasis level="moderate">monitor riser</emphasis> should help. I’ll document these recommendations,
+            and we’ll ensure your setup follows <emphasis level="moderate">DSE, Display Screen Equipment, regulations</emphasis>.
+            By the way, for our records and to help with follow-up, could you confirm your address and contact details again?
+        </voice>
+        <break time="750ms"/>
+        <voice language="en-GB" gender="female">
+            Absolutely, it's 123 Baker Street, London NW1 6XE, and my phone number is 020 7946 0958. Should I include my email as well?
+        </voice>
+        <break time="750ms"/>
+        <voice language="en-GB" gender="male">
+            Yes, please, that would be very helpful.
+        </voice>
+        <break time="750ms"/>
+        <voice language="en-GB" gender="female">
+            Sure, it’s jane.doe@example.com. Thanks for making this an easy process, Mike!
+        </voice>
+    </p>
+
+
+<break time="2s"/> <!-- Pause before next conversation -->
+
+    <!-- Conversation 2: Accessibility Needs -->
+    <p>
+        <voice language="en-GB" gender="male">
+            Hi, I understand you use screen magnification software. How’s that working for you?
+        </voice>
+        <break time="750ms"/>
+        <voice language="en-GB" gender="female">
+            It helps, but sometimes I struggle with certain applications that aren’t fully accessible.
+        </voice>
+        <break time="750ms"/>
+        <voice language="en-GB" gender="male">
+            Are you using <emphasis level="moderate">screen readers</emphasis> like JAWS or NVDA?
+        </voice>
+        <break time="750ms"/>
+        <voice language="en-GB" gender="female">
+            Yes, JAWS mainly, but some web-based systems aren’t fully optimized.
+        </voice>
+        <break time="750ms"/>
+        <voice language="en-GB" gender="male">
+            That’s a common issue. We’ll review <emphasis level="moderate">WCAG 2.1 compliance</emphasis> for your software.
+            Have you tried <emphasis level="moderate">high-contrast mode</emphasis> or <emphasis level="moderate">Braille display support</emphasis>?
+        </voice>
+        <break time="750ms"/>
+        <voice language="en-GB" gender="female">
+            High-contrast mode is useful, but I don’t have a <emphasis level="moderate">refreshable Braille display</emphasis>.
+        </voice>
+        <break time="750ms"/>
+        <voice language="en-GB" gender="male">
+            We can explore funding for that through <emphasis level="moderate">Access to Work grants</emphasis>.
+            Also, let’s check your workstation lighting—<emphasis level="moderate">glare reduction</emphasis> can improve readability.
+        </voice>
+        <break time="750ms"/>
+        <voice language="en-GB" gender="female">
+            That would be great. Some areas of the office are too dim for me.
+        </voice>
+        <break time="750ms"/>
+        <voice language="en-GB" gender="male">
+            Noted. We’ll recommend <emphasis level="moderate">adjustable LED task lighting</emphasis> and training for your team on digital accessibility.
+        </voice>
+    </p>
+
+    <!-- Conversation 3: Remote Work Setup for a Neurodivergent Employee -->
+    <p>
+        <voice language="en-GB" gender="male">
+            Thanks for meeting with me. I understand remote work presents some challenges for you.
+        </voice>
+        <break time="750ms"/>
+        <voice language="en-GB" gender="female">
+            Yes, I have <emphasis level="moderate">sensory processing difficulties</emphasis>, so too many video calls exhaust me.
+            Also, switching tasks disrupts my focus.
+        </voice>
+        <break time="750ms"/>
+        <voice language="en-GB" gender="male">
+            That makes sense. Have you tried using <emphasis level="moderate">noise-cancelling headphones</emphasis> or a <emphasis level="moderate">blue light filter</emphasis> to manage sensory overload?
+        </voice>
+        <break time="750ms"/>
+        <voice language="en-GB" gender="female">
+            I do use headphones, but I didn’t think about the screen lighting.
+        </voice>
+        <break time="750ms"/>
+        <voice language="en-GB" gender="male">
+            A <emphasis level="moderate">warm light filter</emphasis> could help.
+            Also, would you prefer more <emphasis level="moderate">asynchronous communication</emphasis> instead of live calls?
+        </voice>
+        <break time="750ms"/>
+        <voice language="en-GB" gender="female">
+            That would be great. I prefer structured updates over email or Slack.
+        </voice>
+        <break time="750ms"/>
+        <voice language="en-GB" gender="male">
+            Noted. We’ll also recommend a <emphasis level="moderate">task batching approach</emphasis> and
+            <emphasis level="moderate">assistive scheduling software</emphasis> to support your workflow.
+        </voice>
+    </p>
+
+    <break time="2s"/> <!-- Pause before next conversation -->
+
+    <!-- Conversation 4: Workplace Adjustments for a Factory Worker with Mobility Issues -->
+    <p>
+        <voice language="en-GB" gender="male">
+            I understand you have mobility concerns. What tasks are currently difficult for you?
+        </voice>
+        <break time="750ms"/>
+        <voice language="en-GB" gender="female">
+            Standing for long shifts and reaching high shelves. My <emphasis level="moderate">range of motion</emphasis> is limited due to arthritis.
+        </voice>
+        <break time="750ms"/>
+        <voice language="en-GB" gender="male">
+            We can introduce <emphasis level="moderate">anti-fatigue mats</emphasis> and an <emphasis level="moderate">adjustable workbench</emphasis>.
+            Would a <emphasis level="moderate">sit-stand stool</emphasis> help?
+        </voice>
+        <break time="750ms"/>
+        <voice language="en-GB" gender="female">
+            Yes, standing all day is exhausting.
+        </voice>
+        <break time="750ms"/>
+        <voice language="en-GB" gender="male">
+            And for reaching shelves, how about a <emphasis level="moderate">hydraulic lift table</emphasis>?
+        </voice>
+        <break time="750ms"/>
+        <voice language="en-GB" gender="female">
+            That would make things much easier.
+        </voice>
+        <break time="750ms"/>
+        <voice language="en-GB" gender="male">
+            I’ll also check if <emphasis level="moderate">ergonomic gripping tools</emphasis> can help reduce strain.
+        </voice>
+    </p>
+
+    <break time="2s"/> <!-- Pause before next conversation -->
+
+    <!-- Conversation 5: Mental Health and Workplace Adjustments -->
+    <p>
+        <voice language="en-GB" gender="male">
+            I understand you need workplace adjustments for anxiety and focus. Can you describe your main concerns?
+        </voice>
+        <break time="750ms"/>
+        <voice language="en-GB" gender="female">
+            Open-plan offices are overwhelming, and I struggle with <emphasis level="moderate">task prioritisation</emphasis> under pressure.
+        </voice>
+        <break time="750ms"/>
+        <voice language="en-GB" gender="male">
+            Have you tried <emphasis level="moderate">noise reduction strategies</emphasis>, such as <emphasis level="moderate">soundproof panels</emphasis> or a <emphasis level="moderate">white noise machine</emphasis>?
+        </voice>
+        <break time="750ms"/>
+        <voice language="en-GB" gender="female">
+            No, but that sounds really helpful.
+        </voice>
+        <break time="750ms"/>
+        <voice language="en-GB" gender="male">
+            Also, would a <emphasis level="moderate">structured task management system</emphasis> support you?
+        </voice>
+        <break time="750ms"/>
+        <voice language="en-GB" gender="female">
+            Yes, a clear schedule would ease my anxiety.
+        </voice>
+        <break time="750ms"/>
+        <voice language="en-GB" gender="male">
+            Great. We’ll suggest <emphasis level="moderate">flexible work arrangements</emphasis> and
+            <emphasis level="moderate">scheduled deep-focus periods</emphasis>.
+        </voice>
+    </p>
+
+</speak>
