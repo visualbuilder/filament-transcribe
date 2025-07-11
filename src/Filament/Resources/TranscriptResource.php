@@ -123,8 +123,8 @@ class TranscriptResource extends Resource
                                         ->required(),
                                 )
                                 ->default([
-                                    ['Speaker 1'],
-                                    ['Speaker 2'],
+                                    'Speaker 1',
+                                    'Speaker 2',
                                 ])
                                 ->minItems(1)
                                 ->maxItems(30)
