@@ -25,10 +25,6 @@ class ListTranscripts extends ListRecords
                 ->modalFooterActionsAlignment(Alignment::End)
                 ->successRedirectUrl(fn (Transcript $record): string => TranscriptResource::getUrl('edit', ['record'=>$record]))
                 ->createAnother(false),
-            Actions\Action::make('record_audio')
-                ->label('Record Audio')
-                ->icon('heroicon-o-microphone')
-                ->url(fn () => TranscriptResource::getUrl('record')),
         ];
     }
 }

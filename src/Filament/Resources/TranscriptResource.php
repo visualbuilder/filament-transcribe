@@ -8,6 +8,7 @@ use Filament\Forms\Components\Placeholder;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Toggle;
 use Filament\Forms\Components\View;
 use Filament\Forms\Form;
@@ -22,6 +23,7 @@ use Visualbuilder\FilamentTinyEditor\TinyEditor;
 use Visualbuilder\FilamentTranscribe\Enums\TranscriptStatus;
 use Visualbuilder\FilamentTranscribe\Filament\Actions\StatusBadge;
 use Visualbuilder\FilamentTranscribe\Filament\Fields\AudioUploadField;
+use Visualbuilder\FilamentTranscribe\Filament\Forms\Components\RecordAudio;
 use Visualbuilder\FilamentTranscribe\Filament\Fields\OwnerMorphSelectField;
 use Visualbuilder\FilamentTranscribe\Filament\Forms\Components\AudioPlayer;
 use Visualbuilder\FilamentTranscribe\Filament\Resources\TranscriptResource\Pages;
@@ -95,7 +97,18 @@ class TranscriptResource extends Resource
     public static function createTranscriptFields(): array
     {
         return [
-            AudioUploadField::make(),
+            Select::make('audio_mode')
+                ->label('Select Input Method')
+                ->options([
+                    'upload' => 'Upload File',
+                    'record' => 'Record Audio',
+                ])
+                ->default('upload')
+                ->live(),
+            AudioUploadField::make()
+                ->visible(fn(Get $get) => $get('audio_mode') === 'upload'),
+            RecordAudio::make('recording')
+                ->visible(fn(Get $get) => $get('audio_mode') === 'record'),
             Toggle::make('redact_pii')
                 ->default(true)
                 ->label('Redact Personally Identifiable Information  (Forces en_US instead of en_GB)')
@@ -199,9 +212,8 @@ class TranscriptResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index'  => Pages\ListTranscripts::route('/'),
-            'record' => Pages\RecordAudio::route('/record'),
-            'edit'   => Pages\EditTranscript::route('/{record}/edit'),
+            'index' => Pages\ListTranscripts::route('/'),
+            'edit'  => Pages\EditTranscript::route('/{record}/edit'),
         ];
     }
 }

@@ -1,9 +1,11 @@
 @php
     $pingUrl = route('filament-transcribe.ping');
+    $statePath = $getStatePath();
 @endphp
 <div
     x-data="{
         pingUrl: @js($pingUrl),
+        statePath: @js($statePath),
         devices: [],
         selectedDevice: null,
         recording: false,
@@ -96,13 +98,16 @@
         upload() {
             const blob = new Blob(this.chunks, { type: 'audio/webm;codecs=opus' });
             const file = new File([blob], `recording-${Date.now()}.webm`, { type: blob.type });
-            this.$wire.upload('recording', file, () => this.$wire.create(), () => {}, (e) => console.error(e));
+            this.$wire.upload(this.statePath, file, () => {}, () => {}, (e) => console.error(e));
         }
     }"
     x-init="init()"
     class="space-y-4"
 >
-    {{ $this->form }}
+    <div>
+        <label class="block text-sm font-medium leading-6 text-gray-900 mb-1">Audio Source</label>
+        <select class="fi-input w-full" x-ref="select"></select>
+    </div>
     <div x-show="recording" class="flex items-center space-x-2">
         <span class="text-danger-600 animate-pulse">&#9679;</span>
         <span x-text="timer"></span>
