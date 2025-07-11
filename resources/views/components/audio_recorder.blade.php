@@ -16,11 +16,29 @@
         seconds: 0,
         timerInterval: null,
         keepAlive: null,
+        selectEl: null,
         init() {
+            this.selectEl = this.$el.querySelector('select[name=\'device\']');
+            if (this.selectEl) {
+                this.selectEl.addEventListener('change', e => this.selectedDevice = e.target.value);
+            }
             navigator.mediaDevices.enumerateDevices().then(list => {
                 this.devices = list.filter(d => d.kind === 'audioinput');
-                if (this.devices.length) this.selectedDevice = this.devices[0].deviceId;
+                this.populateSelect();
             });
+        },
+        populateSelect() {
+            if (!this.selectEl) return;
+            this.devices.forEach(device => {
+                const option = document.createElement('option');
+                option.value = device.deviceId;
+                option.text = device.label || 'Source';
+                this.selectEl.appendChild(option);
+            });
+            if (this.devices.length && !this.selectedDevice) {
+                this.selectEl.value = this.devices[0].deviceId;
+                this.selectedDevice = this.devices[0].deviceId;
+            }
         },
         start() {
             navigator.mediaDevices.getUserMedia({
@@ -77,17 +95,7 @@
     x-init="init()"
     class="space-y-4"
 >
-    <div>
-        <label class="block text-sm font-medium">Audio Source</label>
-        <select
-            x-model="selectedDevice"
-            class="filament-forms-input block w-full mt-1 rounded-lg border-gray-300 focus:border-primary-600 focus:ring-primary-600 dark:bg-gray-700 dark:text-white"
-        >
-            <template x-for="device in devices" :key="device.deviceId">
-                <option :value="device.deviceId" x-text="device.label || 'Source'"></option>
-            </template>
-        </select>
-    </div>
+    {!! $form !!}
     <div x-show="recording" class="flex items-center space-x-2">
         <span class="text-danger-600 animate-pulse">&#9679;</span>
         <span x-text="timer"></span>
