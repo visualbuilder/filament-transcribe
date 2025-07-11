@@ -32,13 +32,17 @@
         },
         populateSelect() {
             if (!this.selectEl) return;
+            const current = this.selectedDevice;
+            this.selectEl.innerHTML = '';
             this.devices.forEach(device => {
                 const option = document.createElement('option');
                 option.value = device.deviceId;
                 option.text = device.label || 'Source';
                 this.selectEl.appendChild(option);
             });
-            if (this.devices.length && !this.selectedDevice) {
+            if (current) {
+                this.selectEl.value = current;
+            } else if (this.devices.length) {
                 this.selectEl.value = this.devices[0].deviceId;
                 this.selectedDevice = this.devices[0].deviceId;
             }
@@ -94,11 +98,17 @@
             form.append('audio', blob, 'recording.webm');
             fetch(this.storeUrl, {
                 method: 'POST',
-                headers: { 'X-CSRF-TOKEN': document.querySelector('meta[name=csrf-token]').getAttribute('content') },
+                headers: {
+                    'X-CSRF-TOKEN': document.querySelector('meta[name=csrf-token]').getAttribute('content'),
+                    'Accept': 'application/json',
+                },
                 body: form
-            }).then(r => r.json()).then(data => {
-                if (data.redirect) window.location = data.redirect;
-            });
+            })
+                .then(r => r.ok ? r.json() : r.text().then(t => Promise.reject(t)))
+                .then(data => {
+                    if (data.redirect) window.location = data.redirect;
+                })
+                .catch(e => console.error(e));
         }
     }"
     x-init="init()"
