@@ -17,6 +17,7 @@ class RecordAudio extends Page implements HasForms
     protected static string $view = 'filament-transcribe::pages.record-audio';
 
     public ?array $data = [];
+    public $recording;
 
     public function mount(): void
     {
@@ -36,9 +37,8 @@ class RecordAudio extends Page implements HasForms
             ->statePath('data');
     }
 
-    public function record(): void
+    public function create(): void
     {
-        // Placeholder for form submission logic
-        $this->form->getState();
+        dd($this->form->getState());
     }
 }

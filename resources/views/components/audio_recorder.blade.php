@@ -1,10 +1,8 @@
 @php
-    $storeUrl = route('filament-transcribe.recordings.store');
     $pingUrl = route('filament-transcribe.ping');
 @endphp
 <div
     x-data="{
-        storeUrl: @js($storeUrl),
         pingUrl: @js($pingUrl),
         devices: [],
         selectedDevice: null,
@@ -97,22 +95,7 @@
         stopTimer() { clearInterval(this.timerInterval); },
         upload() {
             const blob = new Blob(this.chunks, { type: 'audio/webm;codecs=opus' });
-            const form = new FormData();
-            form.append('audio', blob, 'recording.webm');
-            fetch(this.storeUrl, {
-                method: 'POST',
-                headers: {
-                    'X-CSRF-TOKEN': document.querySelector('meta[name=csrf-token]').getAttribute('content'),
-                    'Accept': 'application/json',
-                },
-                body: form,
-                credentials: 'same-origin'
-            })
-                .then(r => r.ok ? r.json() : r.text().then(t => Promise.reject(t)))
-                .then(data => {
-                    if (data.redirect) window.location = data.redirect;
-                })
-                .catch(e => console.error(e));
+            this.$wire.upload('recording', blob, () => this.$wire.create(), () => {}, (e) => console.error(e));
         }
     }"
     x-init="init()"
