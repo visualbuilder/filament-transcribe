@@ -7,7 +7,6 @@ use Filament\Actions;
 use Filament\Resources\Pages\ListRecords;
 use Filament\Support\Enums\Alignment;
 use Filament\Support\Enums\MaxWidth;
-use Filament\Forms\Components\View;
 use Visualbuilder\FilamentTranscribe\Filament\Resources\TranscriptResource;
 use Visualbuilder\FilamentTranscribe\Models\Transcript;
 
@@ -29,12 +28,7 @@ class ListTranscripts extends ListRecords
             Actions\Action::make('record_audio')
                 ->label('Record Audio')
                 ->icon('heroicon-o-microphone')
-                ->form([
-                    \Filament\Forms\Components\View::make('filament-transcribe::components.audio_recorder'),
-                ])
-                ->modalSubmitAction(false)
-                ->modalCancelAction(false)
-                ->modalWidth(MaxWidth::FiveExtraLarge),
+                ->url(fn () => TranscriptResource::getUrl('record')),
         ];
     }
 }

@@ -199,8 +199,9 @@ class TranscriptResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListTranscripts::route('/'),
-            'edit'  => Pages\EditTranscript::route('/{record}/edit'),
+            'index'  => Pages\ListTranscripts::route('/'),
+            'record' => Pages\RecordAudio::route('/record'),
+            'edit'   => Pages\EditTranscript::route('/{record}/edit'),
         ];
     }
 }

@@ -79,18 +79,18 @@
 >
     <div>
         <label class="block text-sm font-medium">Audio Source</label>
-        <select x-model="selectedDevice" class="filament-input mt-1">
+        <x-filament::select x-model="selectedDevice" class="mt-1">
             <template x-for="device in devices" :key="device.deviceId">
                 <option :value="device.deviceId" x-text="device.label || 'Source'"></option>
             </template>
-        </select>
+        </x-filament::select>
     </div>
     <div x-show="recording" class="flex items-center space-x-2">
         <span class="text-danger-600 animate-pulse">&#9679;</span>
         <span x-text="timer"></span>
     </div>
     <div class="flex space-x-2">
-        <button type="button" class="filament-button" x-show="!recording" @click="start()">Start</button>
-        <button type="button" class="filament-button" x-show="recording" @click="stop()">Stop</button>
+        <x-filament::button type="button" x-show="!recording" @click="start()">Start</x-filament::button>
+        <x-filament::button type="button" x-show="recording" @click="stop()">Stop</x-filament::button>
     </div>
 </div>
