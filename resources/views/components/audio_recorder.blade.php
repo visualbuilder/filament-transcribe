@@ -95,7 +95,8 @@
         stopTimer() { clearInterval(this.timerInterval); },
         upload() {
             const blob = new Blob(this.chunks, { type: 'audio/webm;codecs=opus' });
-            this.$wire.upload('recording', blob, () => this.$wire.create(), () => {}, (e) => console.error(e));
+            const file = new File([blob], `recording-${Date.now()}.webm`, { type: blob.type });
+            this.$wire.upload('recording', file, () => this.$wire.create(), () => {}, (e) => console.error(e));
         }
     }"
     x-init="init()"
