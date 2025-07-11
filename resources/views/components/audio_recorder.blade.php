@@ -79,11 +79,14 @@
 >
     <div>
         <label class="block text-sm font-medium">Audio Source</label>
-        <x-filament::select x-model="selectedDevice" class="mt-1">
+        <select
+            x-model="selectedDevice"
+            class="filament-forms-input block w-full mt-1 rounded-lg border-gray-300 focus:border-primary-600 focus:ring-primary-600 dark:bg-gray-700 dark:text-white"
+        >
             <template x-for="device in devices" :key="device.deviceId">
                 <option :value="device.deviceId" x-text="device.label || 'Source'"></option>
             </template>
-        </x-filament::select>
+        </select>
     </div>
     <div x-show="recording" class="flex items-center space-x-2">
         <span class="text-danger-600 animate-pulse">&#9679;</span>
