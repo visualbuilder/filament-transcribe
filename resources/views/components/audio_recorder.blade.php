@@ -2,27 +2,10 @@
     $storeUrl = route('filament-transcribe.recordings.store');
     $pingUrl = route('filament-transcribe.ping');
 @endphp
-<div x-data="recordComponent()" x-init="init()" class="space-y-4">
-    <div>
-        <label class="block text-sm font-medium">Audio Source</label>
-        <select x-model="selectedDevice" class="filament-input mt-1">
-            <template x-for="device in devices" :key="device.deviceId">
-                <option :value="device.deviceId" x-text="device.label || 'Source'"></option>
-            </template>
-        </select>
-    </div>
-    <div x-show="recording" class="flex items-center space-x-2">
-        <span class="text-danger-600 animate-pulse">&#9679;</span>
-        <span x-text="timer"></span>
-    </div>
-    <div class="flex space-x-2">
-        <button type="button" class="filament-button" x-show="!recording" @click="start()">Start</button>
-        <button type="button" class="filament-button" x-show="recording" @click="stop()">Stop</button>
-    </div>
-</div>
-<script>
-window.recordComponent = function () {
-    return {
+<div
+    x-data="{
+        storeUrl: @js($storeUrl),
+        pingUrl: @js($pingUrl),
         devices: [],
         selectedDevice: null,
         recording: false,
@@ -40,17 +23,20 @@ window.recordComponent = function () {
             });
         },
         start() {
-            navigator.mediaDevices.getUserMedia({ audio: { deviceId: this.selectedDevice ? { exact: this.selectedDevice } : undefined }})
-                .then(stream => {
-                    this.recording = true;
-                    this.stream = stream;
-                    this.mediaRecorder = new MediaRecorder(stream);
-                    this.mediaRecorder.ondataavailable = e => this.chunks.push(e.data);
-                    this.mediaRecorder.onstop = this.upload.bind(this);
-                    this.mediaRecorder.start();
-                    this.startTimer();
-                    this.keepAlive = setInterval(() => { fetch('@js($pingUrl)', {headers:{'X-Requested-With':'XMLHttpRequest'}}); }, 60000);
-                });
+            navigator.mediaDevices.getUserMedia({
+                audio: { deviceId: this.selectedDevice ? { exact: this.selectedDevice } : undefined }
+            }).then(stream => {
+                this.recording = true;
+                this.stream = stream;
+                this.mediaRecorder = new MediaRecorder(stream);
+                this.mediaRecorder.ondataavailable = e => this.chunks.push(e.data);
+                this.mediaRecorder.onstop = this.upload.bind(this);
+                this.mediaRecorder.start();
+                this.startTimer();
+                this.keepAlive = setInterval(() => {
+                    fetch(this.pingUrl, { headers: { 'X-Requested-With': 'XMLHttpRequest' } });
+                }, 60000);
+            });
         },
         stop() {
             this.recording = false;
@@ -68,9 +54,9 @@ window.recordComponent = function () {
             this.seconds = 0;
             this.timerInterval = setInterval(() => {
                 this.seconds++;
-                const h = String(Math.floor(this.seconds/3600)).padStart(2,'0');
-                const m = String(Math.floor((this.seconds%3600)/60)).padStart(2,'0');
-                const s = String(this.seconds % 60).padStart(2,'0');
+                const h = String(Math.floor(this.seconds / 3600)).padStart(2, '0');
+                const m = String(Math.floor((this.seconds % 3600) / 60)).padStart(2, '0');
+                const s = String(this.seconds % 60).padStart(2, '0');
                 this.timer = `${h}:${m}:${s}`;
             }, 1000);
         },
@@ -79,7 +65,7 @@ window.recordComponent = function () {
             const blob = new Blob(this.chunks, { type: 'audio/webm;codecs=opus' });
             const form = new FormData();
             form.append('audio', blob, 'recording.webm');
-            fetch('@js($storeUrl)', {
+            fetch(this.storeUrl, {
                 method: 'POST',
                 headers: { 'X-CSRF-TOKEN': document.querySelector('meta[name=csrf-token]').getAttribute('content') },
                 body: form
@@ -87,6 +73,24 @@ window.recordComponent = function () {
                 if (data.redirect) window.location = data.redirect;
             });
         }
-    }
-}
-</script>
+    }"
+    x-init="init()"
+    class="space-y-4"
+>
+    <div>
+        <label class="block text-sm font-medium">Audio Source</label>
+        <select x-model="selectedDevice" class="filament-input mt-1">
+            <template x-for="device in devices" :key="device.deviceId">
+                <option :value="device.deviceId" x-text="device.label || 'Source'"></option>
+            </template>
+        </select>
+    </div>
+    <div x-show="recording" class="flex items-center space-x-2">
+        <span class="text-danger-600 animate-pulse">&#9679;</span>
+        <span x-text="timer"></span>
+    </div>
+    <div class="flex space-x-2">
+        <button type="button" class="filament-button" x-show="!recording" @click="start()">Start</button>
+        <button type="button" class="filament-button" x-show="recording" @click="stop()">Stop</button>
+    </div>
+</div>
