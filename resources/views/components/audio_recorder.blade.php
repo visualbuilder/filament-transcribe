@@ -18,7 +18,10 @@
         keepAlive: null,
         selectEl: null,
         init() {
-            this.selectEl = this.$el.querySelector('select[name=\'device\']');
+            // Locate the select element rendered by the Filament form.
+            // Using a generic query avoids coupling to the name attribute
+            // which may vary once the form is rendered by Livewire.
+            this.selectEl = this.$el.querySelector('select');
             if (this.selectEl) {
                 this.selectEl.addEventListener('change', e => this.selectedDevice = e.target.value);
             }
@@ -51,6 +54,12 @@
                 this.mediaRecorder.onstop = this.upload.bind(this);
                 this.mediaRecorder.start();
                 this.startTimer();
+                // Re-enumerate devices once permission has been granted to
+                // ensure device labels are available.
+                navigator.mediaDevices.enumerateDevices().then(list => {
+                    this.devices = list.filter(d => d.kind === 'audioinput');
+                    this.populateSelect();
+                });
                 this.keepAlive = setInterval(() => {
                     fetch(this.pingUrl, { headers: { 'X-Requested-With': 'XMLHttpRequest' } });
                 }, 60000);
