@@ -65,7 +65,10 @@
                     this.populateSelect();
                 });
                 this.keepAlive = setInterval(() => {
-                    fetch(this.pingUrl, { headers: { 'X-Requested-With': 'XMLHttpRequest' } });
+                    fetch(this.pingUrl, {
+                        headers: { 'X-Requested-With': 'XMLHttpRequest' },
+                        credentials: 'same-origin'
+                    });
                 }, 60000);
             });
         },
@@ -102,7 +105,8 @@
                     'X-CSRF-TOKEN': document.querySelector('meta[name=csrf-token]').getAttribute('content'),
                     'Accept': 'application/json',
                 },
-                body: form
+                body: form,
+                credentials: 'same-origin'
             })
                 .then(r => r.ok ? r.json() : r.text().then(t => Promise.reject(t)))
                 .then(data => {
