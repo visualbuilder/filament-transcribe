@@ -21,14 +21,15 @@
     </div>
 </div>
 <script>
-function recordComponent() {
+window.recordComponent = function () {
     return {
         devices: [],
         selectedDevice: null,
         recording: false,
         mediaRecorder: null,
+        stream: null,
         chunks: [],
-        timer: '00:00',
+        timer: '00:00:00',
         seconds: 0,
         timerInterval: null,
         keepAlive: null,
@@ -42,6 +43,7 @@ function recordComponent() {
             navigator.mediaDevices.getUserMedia({ audio: { deviceId: this.selectedDevice ? { exact: this.selectedDevice } : undefined }})
                 .then(stream => {
                     this.recording = true;
+                    this.stream = stream;
                     this.mediaRecorder = new MediaRecorder(stream);
                     this.mediaRecorder.ondataavailable = e => this.chunks.push(e.data);
                     this.mediaRecorder.onstop = this.upload.bind(this);
@@ -55,6 +57,10 @@ function recordComponent() {
             if (this.mediaRecorder) {
                 this.mediaRecorder.stop();
             }
+            if (this.stream) {
+                this.stream.getTracks().forEach(t => t.stop());
+                this.stream = null;
+            }
             clearInterval(this.keepAlive);
             this.stopTimer();
         },
@@ -64,12 +70,13 @@ function recordComponent() {
                 this.seconds++;
                 const h = String(Math.floor(this.seconds/3600)).padStart(2,'0');
                 const m = String(Math.floor((this.seconds%3600)/60)).padStart(2,'0');
-                this.timer = `${h}:${m}`;
+                const s = String(this.seconds % 60).padStart(2,'0');
+                this.timer = `${h}:${m}:${s}`;
             }, 1000);
         },
         stopTimer() { clearInterval(this.timerInterval); },
         upload() {
-            const blob = new Blob(this.chunks, { type: 'audio/webm' });
+            const blob = new Blob(this.chunks, { type: 'audio/webm;codecs=opus' });
             const form = new FormData();
             form.append('audio', blob, 'recording.webm');
             fetch('@js($storeUrl)', {
