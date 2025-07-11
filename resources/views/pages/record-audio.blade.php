@@ -1,3 +1,3 @@
 <x-filament::page>
-    @include('filament-transcribe::components.audio_recorder', ['form' => $this->form])
+    @include('filament-transcribe::components.audio_recorder')
 </x-filament::page>

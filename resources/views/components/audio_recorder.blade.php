@@ -95,7 +95,7 @@
     x-init="init()"
     class="space-y-4"
 >
-    {!! $form !!}
+    {{ $this->form }}
     <div x-show="recording" class="flex items-center space-x-2">
         <span class="text-danger-600 animate-pulse">&#9679;</span>
         <span x-text="timer"></span>
