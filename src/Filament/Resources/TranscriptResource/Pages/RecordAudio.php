@@ -9,6 +9,8 @@ use Filament\Resources\Pages\CreateRecord;
 use Illuminate\Support\Facades\Storage;
 use Visualbuilder\FilamentTranscribe\Filament\Resources\TranscriptResource;
 use Livewire\WithFileUploads;
+use Visualbuilder\FilamentTranscribe\Filament\Forms\Components\RecordingInfo;
+use Visualbuilder\FilamentTranscribe\Filament\Forms\Components\SoundCheck;
 
 class RecordAudio extends CreateRecord
 {
@@ -18,7 +20,20 @@ class RecordAudio extends CreateRecord
     protected static string $view = 'filament-transcribe::pages.record-audio';
 
     public ?array $data = [];
-    public $recording;
+    /**
+     * Temporary uploaded audio file.
+     */
+    public $recordingFile;
+
+    /**
+     * Whether the user is currently recording.
+     */
+    public bool $recording = false;
+
+    /**
+     * Whether the user is checking microphone levels.
+     */
+    public bool $checkingLevels = false;
 
     public function mount(): void
     {
@@ -33,25 +48,33 @@ class RecordAudio extends CreateRecord
                     ->label('Audio Source')
                     ->native()
                     ->options([])
-                    ->required(),
-                
+                    ->required()
+                    ->visible(fn($livewire) => ! $livewire->recording && ! $livewire->checkingLevels),
+
                 Toggle::make('redact_pii')
                     ->default(true)
-                    ->label('Redact Personally Identifiable Information'),
+                    ->label('Redact Personally Identifiable Information')
+                    ->visible(fn($livewire) => ! $livewire->recording && ! $livewire->checkingLevels),
+
+                SoundCheck::make(),
+                RecordingInfo::make(),
             ])
             ->statePath('data');
     }
 
     public function create(bool $another = false): void
     {
-        if (! $this->recording) {
+        if (! $this->recordingFile) {
             return;
         }
 
         $disk = config('filament-transcribe.recordings.disk');
         $dir  = trim(config('filament-transcribe.recordings.directory'), '/');
         $name = 'recording-' . now()->format('YmdHis') . '.webm';
-        $path = $this->recording->storeAs($dir, $name, $disk);
+        $path = $this->recordingFile->storeAs($dir, $name, $disk);
+        $this->recordingFile = null;
+        $this->recording = false;
+        $this->checkingLevels = false;
 
         $model = TranscriptResource::getModel();
         $transcript = $model::create([
