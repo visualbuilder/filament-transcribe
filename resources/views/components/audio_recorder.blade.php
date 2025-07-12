@@ -4,6 +4,7 @@
 <div
     x-data="{
         pingUrl: @js($pingUrl),
+        keepAliveInterval: @js(config('filament-transcribe.keep_alive_interval_ms')),
         devices: [],
         selectedDevice: null,
         recording: false,
@@ -67,7 +68,7 @@
                         headers: { 'X-Requested-With': 'XMLHttpRequest' },
                         credentials: 'same-origin'
                     });
-                }, 60000);
+                }, this.keepAliveInterval);
             });
         },
         stop() {
