@@ -173,11 +173,11 @@
     </div>
     <div x-show="recording" class="flex justify-center space-x-0.5">
         <template x-for="i in totalSegments" :key="i">
-            <div class="w-3 h-4 bg-gray-300"
+            <div class="vu-meter-bar"
                 :class="{
-                    'bg-green-500': i <= vuSegments && i <= 8,
-                    'bg-amber-500': i <= vuSegments && i > 8 && i <= 12,
-                    'bg-red-500': i <= vuSegments && i > 12
+                    'vu-green': i <= vuSegments && i <= 8,
+                    'vu-amber': i <= vuSegments && i > 8 && i <= 12,
+                    'vu-red': i <= vuSegments && i > 12
                 }">
             </div>
         </template>

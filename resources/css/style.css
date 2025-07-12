@@ -24,3 +24,15 @@
 @keyframes l24 {
     100% {transform: rotate(1turn)}
 }
+
+/* VU meter styles */
+.vu-meter-bar {
+    width: 14px;
+    height: 20px;
+    margin-right: 2px;
+    background-color: #d1d5db; /* gray-300 */
+    border-radius: 4px;
+}
+.vu-meter-bar.vu-green { background-color: #16a34a; }
+.vu-meter-bar.vu-amber { background-color: #d97706; }
+.vu-meter-bar.vu-red { background-color: #b91c1c; }
