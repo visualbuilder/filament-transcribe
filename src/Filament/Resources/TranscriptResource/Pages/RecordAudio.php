@@ -20,7 +20,20 @@ class RecordAudio extends CreateRecord
     protected static string $view = 'filament-transcribe::pages.record-audio';
 
     public ?array $data = [];
-    public $recording;
+    /**
+     * Temporary uploaded audio file.
+     */
+    public $recordingFile;
+
+    /**
+     * Whether the user is currently recording.
+     */
+    public bool $recording = false;
+
+    /**
+     * Whether the user is checking microphone levels.
+     */
+    public bool $checkingLevels = false;
 
     public function mount(): void
     {
@@ -36,12 +49,12 @@ class RecordAudio extends CreateRecord
                     ->native()
                     ->options([])
                     ->required()
-                    ->extraAttributes(['x-show' => '!recording && !checkingLevels']),
+                    ->visible(fn($livewire) => ! $livewire->recording && ! $livewire->checkingLevels),
 
                 Toggle::make('redact_pii')
                     ->default(true)
                     ->label('Redact Personally Identifiable Information')
-                    ->extraAttributes(['x-show' => '!recording && !checkingLevels']),
+                    ->visible(fn($livewire) => ! $livewire->recording && ! $livewire->checkingLevels),
 
                 SoundCheck::make(),
                 RecordingInfo::make(),
@@ -51,14 +64,17 @@ class RecordAudio extends CreateRecord
 
     public function create(bool $another = false): void
     {
-        if (! $this->recording) {
+        if (! $this->recordingFile) {
             return;
         }
 
         $disk = config('filament-transcribe.recordings.disk');
         $dir  = trim(config('filament-transcribe.recordings.directory'), '/');
         $name = 'recording-' . now()->format('YmdHis') . '.webm';
-        $path = $this->recording->storeAs($dir, $name, $disk);
+        $path = $this->recordingFile->storeAs($dir, $name, $disk);
+        $this->recordingFile = null;
+        $this->recording = false;
+        $this->checkingLevels = false;
 
         $model = TranscriptResource::getModel();
         $transcript = $model::create([
