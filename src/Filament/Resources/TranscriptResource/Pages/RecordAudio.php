@@ -34,6 +34,7 @@ class RecordAudio extends CreateRecord
                     ->native()
                     ->options([])
                     ->required(),
+                
                 Toggle::make('redact_pii')
                     ->default(true)
                     ->label('Redact Personally Identifiable Information'),
@@ -41,7 +42,7 @@ class RecordAudio extends CreateRecord
             ->statePath('data');
     }
 
-    public function create(): void
+    public function create(bool $another = false): void
     {
         if (! $this->recording) {
             return;
