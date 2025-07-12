@@ -111,10 +111,6 @@ class TranscriptResource extends Resource
                 ->columns(2)
                 ->schema([
                     OwnerMorphSelectField::make(),
-//                    Fieldset::make('Speaker Names')
-//                        ->columnSpan(1)
-//                        ->columns(1)
-//                        ->schema([
                             Repeater::make('speaker_names')
                                 ->label(null)
                                 ->simple(
@@ -130,9 +126,6 @@ class TranscriptResource extends Resource
                                 ->maxItems(30)
                                 ->columnSpan(1)
                         ]),
-
-//                ]),
-
             Placeholder::make('progress')
                 ->label(false)
                 ->hiddenOn('create')

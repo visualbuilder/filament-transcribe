@@ -50,6 +50,5 @@ class RecordAudio extends Page implements HasForms
             // Placeholder for saving other form data
             logger()->info('Stored recording', ['path' => $path]);
         }
-        dd($this->form->getState());
     }
 }
