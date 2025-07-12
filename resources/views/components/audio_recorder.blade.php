@@ -168,8 +168,8 @@
 >
     {{ $this->form }}
     <div x-show="recording" class="flex items-center justify-center space-x-2">
-        <span class="text-danger-600 animate-pulse">&#9679;</span>
-        <span x-text="timer" class="text-6xl"></span>
+        <span class="text-danger-600 animate-pulse me-1">&#9679;</span>
+        <span x-text="timer" class="text-3xl"></span>
     </div>
     <div x-show="recording" class="flex justify-center space-x-0.5">
         <template x-for="i in totalSegments" :key="i">
