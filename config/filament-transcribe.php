@@ -76,6 +76,14 @@ return [
      */
     'disk'                   => 's3',
 
+    /**
+     * Where browser recordings are initially stored
+     */
+    'recordings'             => [
+        'disk'      => env('FILAMENT_TRANSCRIBE_RECORDING_DISK', 'local'),
+        'directory' => 'recordings',
+    ],
+
 
     /**
      * |--------------------------------------------------------------------------

@@ -58,6 +58,7 @@ class FilamentTranscribeServiceProvider extends PackageServiceProvider
         }
 
         $this->loadTranslationsFrom(__DIR__.'/../resources/lang', 'vb-transcribe');
+        $this->loadRoutesFrom(__DIR__.'/../routes/filament-transcribe.php');
     }
 
 
