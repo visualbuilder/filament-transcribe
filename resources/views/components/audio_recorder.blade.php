@@ -197,21 +197,6 @@
     >
         {{ $this->form }}
 
-        <div x-show="checkingLevels" class="text-center">
-            <h2 class=" fi-header-heading text-2xl font-bold tracking-tight text-gray-950 dark:text-white sm:text-3xl">Sound Check</h2>
-            <p class="mb-4">Make sure when speaking the volume level is reaching at least 50%</p>
-        </div>
-
-        <div x-show="recording"  class="text-center">
-            <h2 class="fi-header-heading text-2xl font-bold tracking-tight text-gray-950 dark:text-white sm:text-3xl">Recording Session in Progress</h2>
-            <p>When recording is finished a copy will be saved directly to your downloads folder.</p>
-            <p class="mb-4">A copy will also be immediately uploaded for transcription.</p>
-            <p class="flex items-center justify-center space-x-2">
-                <span class="text-danger-600 animate-pulse me-1">&#9679;</span>
-                <span x-text="timer" class="text-3xl"></span>
-            </p>
-        </div>
-
 
         <div x-show="recording || checkingLevels" class="flex justify-center space-x-0.5 mb-4">
             <template x-for="i in totalSegments" :key="i">
@@ -225,10 +210,16 @@
             </template>
         </div>
         <div class="flex space-x-2 justify-center">
-            <x-filament::button type="button" x-show="!recording && !checkingLevels" @click="startLevelCheck()">Step 1 - Check Levels</x-filament::button>
+            <x-filament::button type="button" x-show="!recording && !checkingLevels" @click="startLevelCheck()">
+                {{ __('vb-transcribe::audio_recorder.buttons.check_levels') }}
+            </x-filament::button>
             {{--        <x-filament::button type="button" x-show="checkingLevels" @click="stopLevelCheck()">Stop Check</x-filament::button>--}}
-            <x-filament::button type="button" icon="heroicon-m-microphone" x-show="checkingLevels" @click="start()">Start Recording</x-filament::button>
-            <x-filament::button type="button" x-show="recording" @click="stop()">Stop</x-filament::button>
+            <x-filament::button type="button" icon="heroicon-m-microphone" x-show="checkingLevels" @click="start()">
+                {{ __('vb-transcribe::audio_recorder.buttons.start_recording') }}
+            </x-filament::button>
+            <x-filament::button type="button" x-show="recording" @click="stop()">
+                {{ __('vb-transcribe::audio_recorder.buttons.stop') }}
+            </x-filament::button>
         </div>
         <p x-show="statusMessage" x-text="statusMessage" class="text-danger-600"></p>
     </div>

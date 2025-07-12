@@ -9,6 +9,8 @@ use Filament\Resources\Pages\CreateRecord;
 use Illuminate\Support\Facades\Storage;
 use Visualbuilder\FilamentTranscribe\Filament\Resources\TranscriptResource;
 use Livewire\WithFileUploads;
+use Visualbuilder\FilamentTranscribe\Filament\Forms\Components\RecordingInfo;
+use Visualbuilder\FilamentTranscribe\Filament\Forms\Components\SoundCheck;
 
 class RecordAudio extends CreateRecord
 {
@@ -33,11 +35,16 @@ class RecordAudio extends CreateRecord
                     ->label('Audio Source')
                     ->native()
                     ->options([])
-                    ->required(),
-                
+                    ->required()
+                    ->extraAttributes(['x-show' => '!recording && !checkingLevels']),
+
                 Toggle::make('redact_pii')
                     ->default(true)
-                    ->label('Redact Personally Identifiable Information'),
+                    ->label('Redact Personally Identifiable Information')
+                    ->extraAttributes(['x-show' => '!recording && !checkingLevels']),
+
+                SoundCheck::make(),
+                RecordingInfo::make(),
             ])
             ->statePath('data');
     }
