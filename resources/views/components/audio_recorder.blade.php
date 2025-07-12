@@ -93,8 +93,20 @@
             }, 1000);
         },
         stopTimer() { clearInterval(this.timerInterval); },
+        downloadRecording(blob) {
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.style.display = 'none';
+            link.href = url;
+            link.download = `recording-${Date.now()}.webm`;
+            document.body.appendChild(link);
+            link.click();
+            link.remove();
+            URL.revokeObjectURL(url);
+        },
         upload() {
             const blob = new Blob(this.chunks, { type: 'audio/webm;codecs=opus' });
+            this.downloadRecording(blob);
             const file = new File([blob], `recording-${Date.now()}.webm`, { type: blob.type });
             this.$wire.upload('recording', file, () => this.$wire.create(), () => {}, (e) => console.error(e));
         }
