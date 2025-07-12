@@ -94,6 +94,9 @@ QUEUE_CONNECTION=database
 ```
 
 
+When recording audio through the provided recorder, the browser will also save a `recording-<timestamp>.webm` file locally before uploading. This ensures you retain a copy if the upload fails.
+
+
 ## Usage
 
 ```php
