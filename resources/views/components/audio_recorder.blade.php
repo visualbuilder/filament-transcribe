@@ -11,6 +11,11 @@
         mediaRecorder: null,
         stream: null,
         chunks: [],
+        audioCtx: null,
+        analyser: null,
+        vuSegments: 0,
+        totalSegments: 15,
+        meterRAF: null,
         timer: '00:00:00',
         seconds: 0,
         timerInterval: null,
@@ -60,6 +65,7 @@
                 this.mediaRecorder.onstop = this.upload.bind(this);
                 this.mediaRecorder.start();
                 this.startTimer();
+                this.initVuMeter(stream);
                 // Re-enumerate devices once permission has been granted to
                 // ensure device labels are available.
                 navigator.mediaDevices.enumerateDevices().then(list => {
@@ -90,6 +96,7 @@
             }
             clearInterval(this.keepAlive);
             this.stopTimer();
+            this.stopVuMeter();
         },
         startTimer() {
             this.seconds = 0;
@@ -119,17 +126,63 @@
             const file = new File([blob], `recording-${Date.now()}.webm`, { type: blob.type });
             this.$wire.upload('recording', file, () => this.$wire.create(), () => {}, (e) => console.error(e));
             this.chunks = [];
+        },
+        initVuMeter(stream) {
+            try {
+                this.audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                const source = this.audioCtx.createMediaStreamSource(stream);
+                this.analyser = this.audioCtx.createAnalyser();
+                this.analyser.fftSize = 256;
+                source.connect(this.analyser);
+                this.updateMeter();
+            } catch (e) {
+                console.error('VU meter init failed', e);
+            }
+        },
+        updateMeter() {
+            if (!this.analyser) return;
+            const data = new Uint8Array(this.analyser.fftSize);
+            this.analyser.getByteTimeDomainData(data);
+            let sum = 0;
+            for (let i = 0; i < data.length; i++) {
+                const val = data[i] - 128;
+                sum += val * val;
+            }
+            const rms = Math.sqrt(sum / data.length);
+            const level = Math.min(1, rms / 128);
+            this.vuSegments = Math.round(level * this.totalSegments);
+            this.meterRAF = requestAnimationFrame(this.updateMeter.bind(this));
+        },
+        stopVuMeter() {
+            if (this.audioCtx) {
+                this.audioCtx.close();
+                this.audioCtx = null;
+            }
+            cancelAnimationFrame(this.meterRAF);
+            this.analyser = null;
+            this.vuSegments = 0;
         }
     }"
     x-init="init()"
     class="space-y-4"
 >
     {{ $this->form }}
-    <div x-show="recording" class="flex items-center space-x-2">
+    <div x-show="recording" class="flex items-center justify-center space-x-2">
         <span class="text-danger-600 animate-pulse">&#9679;</span>
-        <span x-text="timer"></span>
+        <span x-text="timer" class="text-6xl"></span>
     </div>
-    <div class="flex space-x-2">
+    <div x-show="recording" class="flex justify-center space-x-0.5">
+        <template x-for="i in totalSegments" :key="i">
+            <div class="w-3 h-4 bg-gray-300"
+                :class="{
+                    'bg-green-500': i <= vuSegments && i <= 8,
+                    'bg-amber-500': i <= vuSegments && i > 8 && i <= 12,
+                    'bg-red-500': i <= vuSegments && i > 12
+                }">
+            </div>
+        </template>
+    </div>
+    <div class="flex space-x-2 justify-end">
         <x-filament::button type="button" x-show="!recording" @click="start()">Start</x-filament::button>
         <x-filament::button type="button" x-show="recording" @click="stop()">Stop</x-filament::button>
     </div>
