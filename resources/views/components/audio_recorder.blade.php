@@ -15,6 +15,8 @@
         analyser: null,
         vuSegments: 0,
         totalSegments: 15,
+        vuSensitivity: 4,
+        checkingLevels: false,
         meterRAF: null,
         timer: '00:00:00',
         seconds: 0,
@@ -42,7 +44,7 @@
             this.devices.forEach(device => {
                 const option = document.createElement('option');
                 option.value = device.deviceId;
-                option.text = device.label || 'Source';
+                option.text = device.label || 'Microphone';
                 this.selectEl.appendChild(option);
             });
             if (current) {
@@ -53,6 +55,9 @@
             }
         },
         start() {
+            if (this.checkingLevels) {
+                this.stopLevelCheck();
+            }
             this.chunks = [];
             this.statusMessage = '';
             navigator.mediaDevices.getUserMedia({
@@ -87,6 +92,7 @@
         },
         stop() {
             this.recording = false;
+            this.checkingLevels = false;
             if (this.mediaRecorder) {
                 this.mediaRecorder.stop();
             }
@@ -96,6 +102,28 @@
             }
             clearInterval(this.keepAlive);
             this.stopTimer();
+            this.stopVuMeter();
+        },
+        startLevelCheck() {
+            this.statusMessage = '';
+            navigator.mediaDevices.getUserMedia({
+                audio: { deviceId: this.selectedDevice ? { exact: this.selectedDevice } : undefined }
+            }).then(stream => {
+                this.checkingLevels = true;
+                this.stream = stream;
+                this.initVuMeter(stream);
+                navigator.mediaDevices.enumerateDevices().then(list => {
+                    this.devices = list.filter(d => d.kind === 'audioinput');
+                    this.populateSelect();
+                });
+            });
+        },
+        stopLevelCheck() {
+            this.checkingLevels = false;
+            if (this.stream) {
+                this.stream.getTracks().forEach(t => t.stop());
+                this.stream = null;
+            }
             this.stopVuMeter();
         },
         startTimer() {
@@ -149,7 +177,7 @@
                 sum += val * val;
             }
             const rms = Math.sqrt(sum / data.length);
-            const level = Math.min(1, rms / 128);
+            const level = Math.min(1, (rms / 128) * this.vuSensitivity);
             this.vuSegments = Math.round(level * this.totalSegments);
             this.meterRAF = requestAnimationFrame(this.updateMeter.bind(this));
         },
@@ -171,7 +199,7 @@
         <span class="text-danger-600 animate-pulse me-1">&#9679;</span>
         <span x-text="timer" class="text-3xl"></span>
     </div>
-    <div x-show="recording" class="flex justify-center space-x-0.5">
+    <div x-show="recording || checkingLevels" class="flex justify-center space-x-0.5">
         <template x-for="i in totalSegments" :key="i">
             <div class="vu-meter-bar"
                 :class="{
@@ -183,6 +211,8 @@
         </template>
     </div>
     <div class="flex space-x-2 justify-end">
+        <x-filament::button type="button" x-show="!recording && !checkingLevels" @click="startLevelCheck()">Check Levels</x-filament::button>
+        <x-filament::button type="button" x-show="checkingLevels" @click="stopLevelCheck()">Stop Check</x-filament::button>
         <x-filament::button type="button" x-show="!recording" @click="start()">Start</x-filament::button>
         <x-filament::button type="button" x-show="recording" @click="stop()">Stop</x-filament::button>
     </div>
