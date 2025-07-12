@@ -2,7 +2,6 @@
 
 namespace Visualbuilder\FilamentTranscribe\Filament\Resources;
 
-use Filament\Forms\Components\Fieldset;
 use Filament\Forms\Components\Grid;
 use Filament\Forms\Components\Placeholder;
 use Filament\Forms\Components\Repeater;
@@ -60,6 +59,7 @@ class TranscriptResource extends Resource
 
     /**
      * Note this must be set in the config - appears to be a filament bug -> plugin is not initialised when filament('filament-transcribe') called
+     *
      * @return string|null
      */
     public static function getCluster(): ?string
@@ -70,6 +70,7 @@ class TranscriptResource extends Resource
     /**
      * Another bug filament('filament-transcribe')->getNavigationSubnavPosition() does not get called
      * Using config value works though
+     *
      * @return SubNavigationPosition
      */
     public static function getSubNavigationPosition(): SubNavigationPosition
@@ -81,69 +82,70 @@ class TranscriptResource extends Resource
     public static function form(Form $form): Form
     {
         return $form
-            ->columns(1)
-            ->schema([
-                Section::make('Transcript')
-                    ->headerActions([
-                        StatusBadge::make('status')
-                    ])
-                    ->schema(self::createTranscriptFields() + self::editTranscriptFields($form)),
+                ->columns(1)
+                ->schema([
+                        Section::make('Transcript')
+                                ->headerActions([
+                                        StatusBadge::make('status')
+                                ])
+                                ->schema(self::createTranscriptFields() + self::editTranscriptFields($form)),
 
-            ]);
+                ]);
     }
 
     public static function createTranscriptFields(): array
     {
         return [
-            AudioUploadField::make(),
-            Toggle::make('redact_pii')
-                ->default(true)
-                ->label('Redact Personally Identifiable Information  (Forces en_US instead of en_GB)')
-                ->hint('Removes names, email, address, bank details, phone numbers '),
+                AudioUploadField::make(),
+                Toggle::make('redact_pii')
+                        ->default(true)
+                        ->label('Redact Personally Identifiable Information  (Forces en_US instead of en_GB)')
+                        ->hint('Removes names, email, address, bank details, phone numbers '),
         ];
     }
 
     public static function editTranscriptFields($form): array
     {
         return [
-            AudioPlayer::make(),
-            Grid::make()
-                ->columns(2)
-                ->schema([
-                    OwnerMorphSelectField::make(),
-                            Repeater::make('speaker_names')
-                                ->label(null)
-                                ->simple(
-                                    TextInput::make('name')
+                AudioPlayer::make(),
+                Grid::make()
+                        ->columns(2)
+                        ->schema([
+                                OwnerMorphSelectField::make(),
+                                Repeater::make('speaker_names')
                                         ->label(null)
-                                        ->required(),
-                                )
-                                ->default([
-                                    'Speaker 1',
-                                    'Speaker 2',
-                                ])
-                                ->minItems(1)
-                                ->maxItems(30)
-                                ->columnSpan(1)
+                                        ->simple(
+                                                TextInput::make('name')
+                                                        ->label(null)
+                                                        ->required(),
+                                        )
+                                        ->default([
+                                                'Associate',
+                                                'End User',
+                                        ])
+                                        ->minItems(1)
+                                        ->maxItems(8)
+                                        ->columnSpan(1)
                         ]),
-            Placeholder::make('progress')
-                ->label(false)
-                ->hiddenOn('create')
-                ->content(new HtmlString("<div class='flex items-center justify-center min-h-[100px]'><div class='block-loader'></div><span class='ml-4'>Transcribing in progress</span></div>"))
-                ->visible(fn($livewire) => $livewire->showProgress ?? false),
+            
+                Placeholder::make('progress')
+                        ->label(false)
+                        ->hiddenOn('create')
+                        ->content(new HtmlString("<div class='flex items-center justify-center min-h-[100px]'><div class='block-loader'></div><span class='ml-4'>Transcribing in progress</span></div>"))
+                        ->visible(fn($livewire) => $livewire->showProgress ?? false),
 
-            TinyEditor::make('transcribed_html')
-                ->label('Transcription')
-                ->live()
-                ->hiddenOn('create')
-                ->placeholder('This will be automatically filled by a background process.')
-                ->visible(fn(Get $get) => $get('audio'))
-                ->nullable(),
+                TinyEditor::make('transcribed_html')
+                        ->label('Transcription')
+                        ->live()
+                        ->hiddenOn('create')
+                        ->placeholder('This will be automatically filled by a background process.')
+                        ->visible(fn(Get $get) => $get('audio'))
+                        ->nullable(),
 
             //Create echo listener for broadcast event notifying that the transcript is complete
-            View::make('filament-transcribe::components.transcript_echo')
-                ->hiddenOn('create')
-                ->viewData(['transcriptId' => $form->getRecord()?->id])
+                View::make('filament-transcribe::components.transcript_echo')
+                        ->hiddenOn('create')
+                        ->viewData(['transcriptId' => $form->getRecord()?->id])
         ];
     }
 
@@ -151,50 +153,50 @@ class TranscriptResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
-            ->defaultSort('id', 'desc')
-            ->columns([
-                Tables\Columns\TextColumn::make('id')
-                    ->label('ID')
-                    ->sortable()
-                    ->searchable(),
+                ->defaultSort('id', 'desc')
+                ->columns([
+                        Tables\Columns\TextColumn::make('id')
+                                ->label('ID')
+                                ->sortable()
+                                ->searchable(),
 
-                TextColumn::make('duration_seconds')
-                    ->label('Duration H:m:s')
-                    ->sortable()
-                    ->formatStateUsing(function ($state) {
-                        $totalSeconds = $state ?? 0;
-                        $hours = floor($totalSeconds / 3600);
-                        $minutes = floor(($totalSeconds % 3600) / 60);
-                        $seconds = $totalSeconds % 60;
-                        return sprintf('%02d:%02d:%02d', $hours, $minutes, $seconds);
-                    }),
-                Tables\Columns\TextColumn::make('transcribed_text')
-                    ->label('Transcript')
-                    ->limit(50)
-                    ->wrap()
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('status')
-                    ->badge()
-                    ->formatStateUsing(fn($state) => TranscriptStatus::from($state->value)->getLabel())
-                    ->color(fn($state) => TranscriptStatus::from($state->value)->getColor())
-            ])
-            ->actions([
-                Tables\Actions\EditAction::make(),
-            ])
-            ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
-                ]),
-            ]);
+                        TextColumn::make('duration_seconds')
+                                ->label('Duration H:m:s')
+                                ->sortable()
+                                ->formatStateUsing(function ($state) {
+                                    $totalSeconds = $state ?? 0;
+                                    $hours = floor($totalSeconds / 3600);
+                                    $minutes = floor(($totalSeconds % 3600) / 60);
+                                    $seconds = $totalSeconds % 60;
+                                    return sprintf('%02d:%02d:%02d', $hours, $minutes, $seconds);
+                                }),
+                        Tables\Columns\TextColumn::make('transcribed_text')
+                                ->label('Transcript')
+                                ->limit(50)
+                                ->wrap()
+                                ->searchable(),
+                        Tables\Columns\TextColumn::make('status')
+                                ->badge()
+                                ->formatStateUsing(fn($state) => TranscriptStatus::from($state->value)->getLabel())
+                                ->color(fn($state) => TranscriptStatus::from($state->value)->getColor())
+                ])
+                ->actions([
+                        Tables\Actions\EditAction::make(),
+                ])
+                ->bulkActions([
+                        Tables\Actions\BulkActionGroup::make([
+                                Tables\Actions\DeleteBulkAction::make(),
+                        ]),
+                ]);
     }
 
 
     public static function getPages(): array
     {
         return [
-            'index'  => Pages\ListTranscripts::route('/'),
-            'record' => Pages\RecordAudio::route('/record'),
-            'edit'   => Pages\EditTranscript::route('/{record}/edit'),
+                'index'  => Pages\ListTranscripts::route('/'),
+                'record' => Pages\RecordAudio::route('/record'),
+                'edit'   => Pages\EditTranscript::route('/{record}/edit'),
         ];
     }
 }
