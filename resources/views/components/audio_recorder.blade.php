@@ -15,6 +15,7 @@
         timerInterval: null,
         keepAlive: null,
         selectEl: null,
+        statusMessage: '',
         init() {
             // Locate the select element rendered by the Filament form.
             // Using a generic query avoids coupling to the name attribute
@@ -47,6 +48,7 @@
         },
         start() {
             this.chunks = [];
+            this.statusMessage = '';
             navigator.mediaDevices.getUserMedia({
                 audio: { deviceId: this.selectedDevice ? { exact: this.selectedDevice } : undefined }
             }).then(stream => {
@@ -63,12 +65,19 @@
                     this.devices = list.filter(d => d.kind === 'audioinput');
                     this.populateSelect();
                 });
-                this.keepAlive = setInterval(() => {
-                    fetch(this.pingUrl, {
-                        headers: { 'X-Requested-With': 'XMLHttpRequest' },
-                        credentials: 'same-origin'
-                    });
+                this.keepAlive = setInterval(async () => {
+                    try {
+                        await fetch(this.pingUrl, {
+                            headers: { 'X-Requested-With': 'XMLHttpRequest' },
+                            credentials: 'same-origin'
+                        });
+                    } catch (error) {
+                        console.error('Ping failed', error);
+                    }
                 }, 60000);
+            }).catch(error => {
+                console.error('Error accessing microphone', error);
+                this.statusMessage = 'Unable to access microphone';
             });
         },
         stop() {
@@ -113,4 +122,5 @@
         <x-filament::button type="button" x-show="!recording" @click="start()">Start</x-filament::button>
         <x-filament::button type="button" x-show="recording" @click="stop()">Stop</x-filament::button>
     </div>
+    <p x-show="statusMessage" x-text="statusMessage" class="text-danger-600"></p>
 </div>
