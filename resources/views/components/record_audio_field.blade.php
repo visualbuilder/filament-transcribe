@@ -18,10 +18,8 @@
         keepAlive: null,
         selectEl: null,
         init() {
-            // Locate the select element rendered by the Filament form.
-            // Using a generic query avoids coupling to the name attribute
-            // which may vary once the form is rendered by Livewire.
-            this.selectEl = this.$el.querySelector('select');
+            // Locate the select element rendered by the Filament form via its ref
+            this.selectEl = this.$refs.select;
             if (this.selectEl) {
                 this.selectEl.addEventListener('change', e => this.selectedDevice = e.target.value);
             }
@@ -106,7 +104,7 @@
 >
     <div>
         <label class="block text-sm font-medium leading-6 text-gray-900 mb-1">Audio Source</label>
-        <select class="fi-input w-full" x-ref="select"></select>
+        <x-filament::forms::native-select x-ref="select" class="w-full"></x-filament::forms::native-select>
     </div>
     <div x-show="recording" class="flex items-center space-x-2">
         <span class="text-danger-600 animate-pulse">&#9679;</span>
