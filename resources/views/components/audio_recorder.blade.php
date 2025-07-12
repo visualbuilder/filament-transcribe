@@ -8,7 +8,7 @@
         keepAliveInterval: @js(config('filament-transcribe.keep_alive_interval_ms')),
         devices: [],
         selectedDevice: null,
-        recording: $wire.entangle('recording'),
+        recording: $wire.$entangle('recording'),
         mediaRecorder: null,
         stream: null,
         chunks: [],
@@ -17,7 +17,7 @@
         vuSegments: 0,
         totalSegments: 15,
         vuSensitivity: 4,
-        checkingLevels: $wire.entangle('checkingLevels'),
+        checkingLevels: $wire.$entangle('checkingLevels'),
         meterRAF: null,
         timer: '00:00:00',
         seconds: 0,
@@ -198,17 +198,7 @@
         {{ $this->form }}
 
 
-        <div x-show="recording || checkingLevels" class="flex justify-center space-x-0.5 mb-4">
-            <template x-for="i in totalSegments" :key="i">
-                <div class="vu-meter-bar"
-                     :class="{
-                    'vu-green': i <= vuSegments && i <= 8,
-                    'vu-amber': i <= vuSegments && i > 8 && i <= 12,
-                    'vu-red': i <= vuSegments && i > 12
-                }">
-                </div>
-            </template>
-        </div>
+
         <div class="flex space-x-2 justify-center">
             <x-filament::button type="button" x-show="!recording && !checkingLevels" @click="startLevelCheck()">
                 {{ __('vb-transcribe::audio_recorder.buttons.check_levels') }}
