@@ -15,7 +15,7 @@
         analyser: null,
         vuSegments: 0,
         totalSegments: 15,
-        vuSensitivity: 8,
+        vuSensitivity: 4,
         checkingLevels: false,
         meterRAF: null,
         timer: '00:00:00',
@@ -44,7 +44,7 @@
             this.devices.forEach(device => {
                 const option = document.createElement('option');
                 option.value = device.deviceId;
-                option.text = device.label || 'Source';
+                option.text = device.label || 'Microphone';
                 this.selectEl.appendChild(option);
             });
             if (current) {
@@ -112,6 +112,10 @@
                 this.checkingLevels = true;
                 this.stream = stream;
                 this.initVuMeter(stream);
+                navigator.mediaDevices.enumerateDevices().then(list => {
+                    this.devices = list.filter(d => d.kind === 'audioinput');
+                    this.populateSelect();
+                });
             });
         },
         stopLevelCheck() {
