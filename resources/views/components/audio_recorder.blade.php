@@ -46,6 +46,7 @@
             }
         },
         start() {
+            this.chunks = [];
             navigator.mediaDevices.getUserMedia({
                 audio: { deviceId: this.selectedDevice ? { exact: this.selectedDevice } : undefined }
             }).then(stream => {
@@ -97,6 +98,7 @@
             const blob = new Blob(this.chunks, { type: 'audio/webm;codecs=opus' });
             const file = new File([blob], `recording-${Date.now()}.webm`, { type: blob.type });
             this.$wire.upload('recording', file, () => this.$wire.create(), () => {}, (e) => console.error(e));
+            this.chunks = [];
         }
     }"
     x-init="init()"
