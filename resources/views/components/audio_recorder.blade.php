@@ -4,6 +4,7 @@
 <div
     x-data="{
         pingUrl: @js($pingUrl),
+        keepAliveInterval: @js(config('filament-transcribe.keep_alive_interval_ms')),
         devices: [],
         selectedDevice: null,
         recording: false,
@@ -74,10 +75,8 @@
                     } catch (error) {
                         console.error('Ping failed', error);
                     }
-                }, 60000);
-            }).catch(error => {
-                console.error('Error accessing microphone', error);
-                this.statusMessage = 'Unable to access microphone';
+                }, this.keepAliveInterval);
+
             });
         },
         stop() {
