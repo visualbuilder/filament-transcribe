@@ -1,6 +1,7 @@
 @php
-    $pingUrl = route('filament-transcribe.ping');
-    $statePath = $getStatePath();
+    $pingUrl    = route('filament-transcribe.ping');
+    $statePath  = $getStatePath();
+    $deviceName = $deviceField ?? 'recording_device';
 @endphp
 <div
     x-data="{
@@ -18,9 +19,10 @@
         keepAlive: null,
         selectEl: null,
         init() {
-            // Locate the select element rendered by the Filament form via its ref
-            this.selectEl = this.$refs.select;
+            // Locate the select element defined in the form
+            this.selectEl = document.querySelector('select[name="'+@js($deviceName)+'"]');
             if (this.selectEl) {
+                this.selectedDevice = this.selectEl.value;
                 this.selectEl.addEventListener('change', e => this.selectedDevice = e.target.value);
             }
             navigator.mediaDevices.enumerateDevices().then(list => {
@@ -44,6 +46,7 @@
                 this.selectEl.value = this.devices[0].deviceId;
                 this.selectedDevice = this.devices[0].deviceId;
             }
+            this.selectEl.dispatchEvent(new Event('change', { bubbles: true }));
         },
         start() {
             navigator.mediaDevices.getUserMedia({
@@ -102,10 +105,6 @@
     x-init="init()"
     class="space-y-4"
 >
-    <div>
-        <label class="block text-sm font-medium leading-6 text-gray-900 mb-1">Audio Source</label>
-        <x-filament::forms::native-select x-ref="select" class="w-full"></x-filament::forms::native-select>
-    </div>
     <div x-show="recording" class="flex items-center space-x-2">
         <span class="text-danger-600 animate-pulse">&#9679;</span>
         <span x-text="timer"></span>

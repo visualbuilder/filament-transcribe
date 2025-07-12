@@ -107,7 +107,13 @@ class TranscriptResource extends Resource
                 ->live(),
             AudioUploadField::make()
                 ->visible(fn(Get $get) => $get('audio_mode') === 'upload'),
+            Select::make('recording_device')
+                ->label('Audio Source')
+                ->options([])
+                ->native(false)
+                ->visible(fn(Get $get) => $get('audio_mode') === 'record'),
             RecordAudio::make('recording')
+                ->deviceField('recording_device')
                 ->visible(fn(Get $get) => $get('audio_mode') === 'record'),
             Toggle::make('redact_pii')
                 ->default(true)
