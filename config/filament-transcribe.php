@@ -147,7 +147,7 @@ return [
         'url'               => 'transcripts',
         'cluster'           => null,
         'sort'              => 1,
-        'subnav_position'   => \Filament\Pages\SubNavigationPosition::Top
+        'subnav_position'   => null,
     ],
 
     'transcript_model'    => \Visualbuilder\FilamentTranscribe\Models\Transcript::class,
