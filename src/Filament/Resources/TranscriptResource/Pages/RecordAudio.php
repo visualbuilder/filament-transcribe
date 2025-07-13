@@ -4,6 +4,7 @@ namespace Visualbuilder\FilamentTranscribe\Filament\Resources\TranscriptResource
 
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Toggle;
+use Filament\Forms\Components\Placeholder;
 use Filament\Forms\Form;
 use Filament\Resources\Pages\CreateRecord;
 use Illuminate\Support\Facades\Storage;
@@ -11,6 +12,7 @@ use Visualbuilder\FilamentTranscribe\Filament\Resources\TranscriptResource;
 use Livewire\WithFileUploads;
 use Visualbuilder\FilamentTranscribe\Filament\Forms\Components\RecordingInfo;
 use Visualbuilder\FilamentTranscribe\Filament\Forms\Components\SoundCheck;
+use Illuminate\Support\HtmlString;
 
 class RecordAudio extends CreateRecord
 {
@@ -35,6 +37,11 @@ class RecordAudio extends CreateRecord
      */
     public bool $checkingLevels = false;
 
+    /**
+     * Whether the uploaded file is currently being sent to the server.
+     */
+    public bool $showProgress = false;
+
     public function mount(): void
     {
         $this->form->fill();
@@ -49,15 +56,19 @@ class RecordAudio extends CreateRecord
                     ->native()
                     ->options([])
                     ->required()
-                    ->visible(fn($livewire) => ! $livewire->recording && ! $livewire->checkingLevels),
+                    ->visible(fn($livewire) => ! $livewire->recording && ! $livewire->checkingLevels && ! $livewire->showProgress),
 
                 Toggle::make('redact_pii')
                     ->default(true)
                     ->label('Redact Personally Identifiable Information')
-                    ->visible(fn($livewire) => ! $livewire->recording && ! $livewire->checkingLevels),
+                    ->visible(fn($livewire) => ! $livewire->recording && ! $livewire->checkingLevels && ! $livewire->showProgress),
 
                 SoundCheck::make(),
                 RecordingInfo::make(),
+                Placeholder::make('progress')
+                    ->label(false)
+                    ->content(new HtmlString("<div class='flex items-center justify-center min-h-[100px]'><div class='block-loader'></div><span class='ml-4'>Uploading your audio file</span></div>"))
+                    ->visible(fn($livewire) => $livewire->showProgress),
             ])
             ->statePath('data');
     }
@@ -93,22 +104,26 @@ class RecordAudio extends CreateRecord
     public function startLevelCheck(): void
     {
         $this->checkingLevels = true;
+        $this->showProgress = false;
     }
 
     public function stopLevelCheck(): void
     {
         $this->checkingLevels = false;
+        $this->showProgress = false;
     }
 
     public function startRecording(): void
     {
         $this->recording = true;
         $this->checkingLevels = false;
+        $this->showProgress = false;
     }
 
     public function stopRecording(): void
     {
         $this->recording = false;
         $this->checkingLevels = false;
+        $this->showProgress = true;
     }
 }
