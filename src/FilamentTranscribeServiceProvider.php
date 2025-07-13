@@ -41,7 +41,7 @@ class FilamentTranscribeServiceProvider extends PackageServiceProvider
         $publishedPath = public_path('vendor/filament-transcribe/filament-transcribe.css');
 
         $cssPath = file_exists($publishedPath)
-            ? asset('vendor/filament-transcribe/filament-transcribe.css')
+            ? secure_asset('vendor/filament-transcribe/filament-transcribe.css')
             : __DIR__ . '/../resources/css/style.css';
 
         FilamentAsset::register([
