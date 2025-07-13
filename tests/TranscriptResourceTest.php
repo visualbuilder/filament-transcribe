@@ -5,7 +5,6 @@ use Filament\Forms\Components\Toggle;
 use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Foundation\Auth\User;
-use Mockery;
 use Visualbuilder\FilamentTranscribe\Filament\Forms\Components\AudioPlayer;
 use Visualbuilder\FilamentTranscribe\Filament\Resources\TranscriptResource;
 use Visualbuilder\FilamentTranscribe\Models\Transcript;
