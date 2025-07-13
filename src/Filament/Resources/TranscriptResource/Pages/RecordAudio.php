@@ -89,4 +89,26 @@ class RecordAudio extends CreateRecord
 
         $this->redirect(TranscriptResource::getUrl('edit', ['record' => $transcript]));
     }
+
+    public function startLevelCheck(): void
+    {
+        $this->checkingLevels = true;
+    }
+
+    public function stopLevelCheck(): void
+    {
+        $this->checkingLevels = false;
+    }
+
+    public function startRecording(): void
+    {
+        $this->recording = true;
+        $this->checkingLevels = false;
+    }
+
+    public function stopRecording(): void
+    {
+        $this->recording = false;
+        $this->checkingLevels = false;
+    }
 }

@@ -8,7 +8,7 @@
         keepAliveInterval: @js(config('filament-transcribe.keep_alive_interval_ms')),
         devices: [],
         selectedDevice: null,
-        recording: $wire.$entangle('recording'),
+        recording: $wire.entangle('recording'),
         mediaRecorder: null,
         stream: null,
         chunks: [],
@@ -17,7 +17,7 @@
         vuSegments: 0,
         totalSegments: 15,
         vuSensitivity: 4,
-        checkingLevels: $wire.$entangle('checkingLevels'),
+        checkingLevels: $wire.entangle('checkingLevels'),
         meterRAF: null,
         timer: '00:00:00',
         seconds: 0,
@@ -37,6 +37,8 @@
                 this.devices = list.filter(d => d.kind === 'audioinput');
                 this.populateSelect();
             });
+            this.$watch('recording', value => value ? this.beginRecording() : this.finishRecording());
+            this.$watch('checkingLevels', value => value ? this.beginLevelCheck() : this.finishLevelCheck());
         },
         populateSelect() {
             if (!this.selectEl) return;
@@ -55,16 +57,12 @@
                 this.selectedDevice = this.devices[0].deviceId;
             }
         },
-        start() {
-            if (this.checkingLevels) {
-                this.stopLevelCheck();
-            }
+        beginRecording() {
             this.chunks = [];
             this.statusMessage = '';
             navigator.mediaDevices.getUserMedia({
                 audio: { deviceId: this.selectedDevice ? { exact: this.selectedDevice } : undefined }
             }).then(stream => {
-                this.recording = true;
                 this.stream = stream;
                 this.mediaRecorder = new MediaRecorder(stream);
                 this.mediaRecorder.ondataavailable = e => this.chunks.push(e.data);
@@ -91,9 +89,7 @@
 
             });
         },
-        stop() {
-            this.recording = false;
-            this.checkingLevels = false;
+        finishRecording() {
             if (this.mediaRecorder) {
                 this.mediaRecorder.stop();
             }
@@ -105,12 +101,11 @@
             this.stopTimer();
             this.stopVuMeter();
         },
-        startLevelCheck() {
+        beginLevelCheck() {
             this.statusMessage = '';
             navigator.mediaDevices.getUserMedia({
                 audio: { deviceId: this.selectedDevice ? { exact: this.selectedDevice } : undefined }
             }).then(stream => {
-                this.checkingLevels = true;
                 this.stream = stream;
                 this.initVuMeter(stream);
                 navigator.mediaDevices.enumerateDevices().then(list => {
@@ -119,8 +114,7 @@
                 });
             });
         },
-        stopLevelCheck() {
-            this.checkingLevels = false;
+        finishLevelCheck() {
             if (this.stream) {
                 this.stream.getTracks().forEach(t => t.stop());
                 this.stream = null;
@@ -200,14 +194,14 @@
 
 
         <div class="flex space-x-2 justify-center">
-            <x-filament::button type="button" x-show="!recording && !checkingLevels" @click="startLevelCheck()">
+            <x-filament::button type="button" x-show="!recording && !checkingLevels" @click="$wire.startLevelCheck()">
                 {{ __('vb-transcribe::audio_recorder.buttons.check_levels') }}
             </x-filament::button>
             {{--        <x-filament::button type="button" x-show="checkingLevels" @click="stopLevelCheck()">Stop Check</x-filament::button>--}}
-            <x-filament::button type="button" icon="heroicon-m-microphone" x-show="checkingLevels" @click="start()">
+            <x-filament::button type="button" icon="heroicon-m-microphone" x-show="checkingLevels" @click="$wire.startRecording()">
                 {{ __('vb-transcribe::audio_recorder.buttons.start_recording') }}
             </x-filament::button>
-            <x-filament::button type="button" x-show="recording" @click="stop()">
+            <x-filament::button type="button" x-show="recording" @click="$wire.stopRecording()">
                 {{ __('vb-transcribe::audio_recorder.buttons.stop') }}
             </x-filament::button>
         </div>
