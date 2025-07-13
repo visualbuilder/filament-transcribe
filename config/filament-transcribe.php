@@ -132,6 +132,7 @@ return [
         'audio/wav'    => 'wav',
         'video/mp4'    => 'mp4',
         'audio/ogg'    => 'ogg',
+        'video/webm'   => 'webm',
     ],
 
     /**
