@@ -22,6 +22,7 @@
         meterRAF: null,
         timer: '00:00:00',
         seconds: 0,
+        startTime: null,
         timerInterval: null,
         keepAlive: null,
         selectEl: null,
@@ -123,16 +124,23 @@
             this.stopVuMeter();
         },
         startTimer() {
+            this.startTime = Date.now();
             this.seconds = 0;
+            clearInterval(this.timerInterval);
             this.timerInterval = setInterval(() => {
-                this.seconds++;
-                const h = String(Math.floor(this.seconds / 3600)).padStart(2, '0');
-                const m = String(Math.floor((this.seconds % 3600) / 60)).padStart(2, '0');
-                const s = String(this.seconds % 60).padStart(2, '0');
+                const diff = Math.floor((Date.now() - this.startTime) / 1000);
+                this.seconds = diff;
+                const h = String(Math.floor(diff / 3600)).padStart(2, '0');
+                const m = String(Math.floor((diff % 3600) / 60)).padStart(2, '0');
+                const s = String(diff % 60).padStart(2, '0');
                 this.timer = `${h}:${m}:${s}`;
             }, 1000);
         },
-        stopTimer() { clearInterval(this.timerInterval); },
+        stopTimer() {
+            clearInterval(this.timerInterval);
+            this.timerInterval = null;
+            this.startTime = null;
+        },
         downloadRecording(blob) {
             const url = URL.createObjectURL(blob);
             const link = document.createElement('a');
@@ -194,18 +202,7 @@
 
 
 
-        <div class="flex space-x-2 justify-center">
-            <x-filament::button type="button" x-show="!recording && !checkingLevels && !showProgress" @click="$wire.startLevelCheck()">
-                {{ __('vb-transcribe::audio_recorder.buttons.check_levels') }}
-            </x-filament::button>
-            {{--        <x-filament::button type="button" x-show="checkingLevels" @click="stopLevelCheck()">Stop Check</x-filament::button>--}}
-            <x-filament::button type="button" icon="heroicon-m-microphone" x-show="checkingLevels" @click="$wire.startRecording()">
-                {{ __('vb-transcribe::audio_recorder.buttons.start_recording') }}
-            </x-filament::button>
-            <x-filament::button type="button" x-show="recording" @click="$wire.stopRecording()">
-                {{ __('vb-transcribe::audio_recorder.buttons.stop') }}
-            </x-filament::button>
-        </div>
+
         <p x-show="statusMessage" x-text="statusMessage" class="text-danger-600"></p>
     </div>
 </div>

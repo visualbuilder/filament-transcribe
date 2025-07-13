@@ -6,6 +6,7 @@ use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Toggle;
 use Filament\Forms\Components\Placeholder;
 use Filament\Forms\Components\Section;
+use Filament\Forms\Components\Actions\Action;
 use Filament\Forms\Form;
 use Filament\Resources\Pages\CreateRecord;
 use Illuminate\Support\Facades\Storage;
@@ -72,6 +73,21 @@ class RecordAudio extends CreateRecord
                             ->label(false)
                             ->content(new HtmlString("<div class='flex items-center justify-center min-h-[100px]'><div class='block-loader'></div><span class='ml-4'>Uploading your audio file</span></div>"))
                             ->visible(fn($livewire) => $livewire->showProgress),
+                    ])
+                    ->footerActions([
+                        Action::make('check_levels')
+                            ->label(__('vb-transcribe::audio_recorder.buttons.check_levels'))
+                            ->visible(fn($livewire) => ! $livewire->recording && ! $livewire->checkingLevels && ! $livewire->showProgress)
+                            ->action('startLevelCheck'),
+                        Action::make('start_recording')
+                            ->icon('heroicon-m-microphone')
+                            ->label(__('vb-transcribe::audio_recorder.buttons.start_recording'))
+                            ->visible(fn($livewire) => $livewire->checkingLevels)
+                            ->action('startRecording'),
+                        Action::make('stop_recording')
+                            ->label(__('vb-transcribe::audio_recorder.buttons.stop'))
+                            ->visible(fn($livewire) => $livewire->recording)
+                            ->action('stopRecording'),
                     ])
             ])
             ->statePath('data');
