@@ -9,6 +9,7 @@ use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Actions\Action;
 use Filament\Forms\Form;
 use Filament\Resources\Pages\CreateRecord;
+use Filament\Support\Enums\Alignment;
 use Illuminate\Support\Facades\Storage;
 use Visualbuilder\FilamentTranscribe\Filament\Resources\TranscriptResource;
 use Livewire\WithFileUploads;
@@ -61,12 +62,10 @@ class RecordAudio extends CreateRecord
                             ->options([])
                             ->required()
                             ->visible(fn($livewire) => ! $livewire->recording && ! $livewire->checkingLevels && ! $livewire->showProgress),
-
                         Toggle::make('redact_pii')
                             ->default(true)
                             ->label('Redact Personally Identifiable Information')
                             ->visible(fn($livewire) => ! $livewire->recording && ! $livewire->checkingLevels && ! $livewire->showProgress),
-
                         SoundCheck::make(),
                         RecordingInfo::make(),
                         Placeholder::make('progress')
@@ -86,9 +85,10 @@ class RecordAudio extends CreateRecord
                             ->action('startRecording'),
                         Action::make('stop_recording')
                             ->label(__('vb-transcribe::audio_recorder.buttons.stop'))
+                            ->icon('fas-circle-stop')
                             ->visible(fn($livewire) => $livewire->recording)
                             ->action('stopRecording'),
-                    ])
+                    ])->footerActionsAlignment(Alignment::Center)
             ])
             ->statePath('data');
     }

@@ -12,6 +12,6 @@ return [
     'buttons' => [
         'check_levels' => 'Step 1 - Check Levels',
         'start_recording' => 'Start Recording',
-        'stop' => 'Stop',
+        'stop' => 'Stop Recording',
     ],
 ];

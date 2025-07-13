@@ -1,5 +1,5 @@
 <div x-show="recording" class="text-center">
-    <h2 class="fi-header-heading text-2xl font-bold tracking-tight text-gray-950 dark:text-white sm:text-3xl">
+    <h2 class="fi-header-heading text-2xl font-bold tracking-tight text-gray-950 dark:text-white sm:text-3xl mb-2">
         {{ __('vb-transcribe::audio_recorder.recording_session.title') }}
     </h2>
     <p>{{ __('vb-transcribe::audio_recorder.recording_session.note_save') }}</p>

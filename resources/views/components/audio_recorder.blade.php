@@ -200,9 +200,6 @@
     >
         {{ $this->form }}
 
-
-
-
         <p x-show="statusMessage" x-text="statusMessage" class="text-danger-600"></p>
     </div>
 </div>
