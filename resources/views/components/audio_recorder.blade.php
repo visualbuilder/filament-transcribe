@@ -20,6 +20,8 @@
         checkingLevels: $wire.entangle('checkingLevels'),
         showProgress: $wire.entangle('showProgress'),
         uploadProgress: 0,
+        uploadFileName: '',
+        uploadFileSize: '',
         meterRAF: null,
         timer: '00:00:00',
         seconds: 0,
@@ -158,6 +160,11 @@
             this.downloadRecording(blob);
             const file = new File([blob], `recording-${Date.now()}.webm`, { type: blob.type });
             this.uploadProgress = 0;
+            this.uploadFileName = file.name;
+            const sizeKb = file.size / 1024;
+            this.uploadFileSize = sizeKb > 1024
+                ? `${(sizeKb / 1024).toFixed(1)} MB`
+                : `${sizeKb.toFixed(1)} KB`;
             this.$wire.upload(
                 'recordingFile',
                 file,
