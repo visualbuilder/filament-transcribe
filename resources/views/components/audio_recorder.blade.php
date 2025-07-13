@@ -18,6 +18,7 @@
         totalSegments: 15,
         vuSensitivity: 4,
         checkingLevels: $wire.entangle('checkingLevels'),
+        showProgress: $wire.entangle('showProgress'),
         meterRAF: null,
         timer: '00:00:00',
         seconds: 0,
@@ -194,7 +195,7 @@
 
 
         <div class="flex space-x-2 justify-center">
-            <x-filament::button type="button" x-show="!recording && !checkingLevels" @click="$wire.startLevelCheck()">
+            <x-filament::button type="button" x-show="!recording && !checkingLevels && !showProgress" @click="$wire.startLevelCheck()">
                 {{ __('vb-transcribe::audio_recorder.buttons.check_levels') }}
             </x-filament::button>
             {{--        <x-filament::button type="button" x-show="checkingLevels" @click="stopLevelCheck()">Stop Check</x-filament::button>--}}

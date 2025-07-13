@@ -5,6 +5,7 @@ namespace Visualbuilder\FilamentTranscribe\Filament\Resources\TranscriptResource
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Toggle;
 use Filament\Forms\Components\Placeholder;
+use Filament\Forms\Components\Section;
 use Filament\Forms\Form;
 use Filament\Resources\Pages\CreateRecord;
 use Illuminate\Support\Facades\Storage;
@@ -51,24 +52,27 @@ class RecordAudio extends CreateRecord
     {
         return $form
             ->schema([
-                Select::make('device')
-                    ->label('Audio Source')
-                    ->native()
-                    ->options([])
-                    ->required()
-                    ->visible(fn($livewire) => ! $livewire->recording && ! $livewire->checkingLevels && ! $livewire->showProgress),
+                Section::make('Record Session')
+                    ->schema([
+                        Select::make('device')
+                            ->label('Audio Source')
+                            ->native()
+                            ->options([])
+                            ->required()
+                            ->visible(fn($livewire) => ! $livewire->recording && ! $livewire->checkingLevels && ! $livewire->showProgress),
 
-                Toggle::make('redact_pii')
-                    ->default(true)
-                    ->label('Redact Personally Identifiable Information')
-                    ->visible(fn($livewire) => ! $livewire->recording && ! $livewire->checkingLevels && ! $livewire->showProgress),
+                        Toggle::make('redact_pii')
+                            ->default(true)
+                            ->label('Redact Personally Identifiable Information')
+                            ->visible(fn($livewire) => ! $livewire->recording && ! $livewire->checkingLevels && ! $livewire->showProgress),
 
-                SoundCheck::make(),
-                RecordingInfo::make(),
-                Placeholder::make('progress')
-                    ->label(false)
-                    ->content(new HtmlString("<div class='flex items-center justify-center min-h-[100px]'><div class='block-loader'></div><span class='ml-4'>Uploading your audio file</span></div>"))
-                    ->visible(fn($livewire) => $livewire->showProgress),
+                        SoundCheck::make(),
+                        RecordingInfo::make(),
+                        Placeholder::make('progress')
+                            ->label(false)
+                            ->content(new HtmlString("<div class='flex items-center justify-center min-h-[100px]'><div class='block-loader'></div><span class='ml-4'>Uploading your audio file</span></div>"))
+                            ->visible(fn($livewire) => $livewire->showProgress),
+                    ])
             ])
             ->statePath('data');
     }
