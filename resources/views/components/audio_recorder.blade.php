@@ -19,6 +19,7 @@
         vuSensitivity: 4,
         checkingLevels: $wire.entangle('checkingLevels'),
         showProgress: $wire.entangle('showProgress'),
+        uploadProgress: 0,
         meterRAF: null,
         timer: '00:00:00',
         seconds: 0,
@@ -156,7 +157,15 @@
             const blob = new Blob(this.chunks, { type: 'audio/webm;codecs=opus' });
             this.downloadRecording(blob);
             const file = new File([blob], `recording-${Date.now()}.webm`, { type: blob.type });
-            this.$wire.upload('recordingFile', file, () => this.$wire.create(), () => {}, (e) => console.error(e));
+            this.uploadProgress = 0;
+            this.$wire.upload(
+                'recordingFile',
+                file,
+                () => this.$wire.create(),
+                () => {},
+                (e) => { this.uploadProgress = e.detail.progress; },
+                () => {}
+            );
             this.chunks = [];
         },
         initVuMeter(stream) {

@@ -70,7 +70,13 @@ class RecordAudio extends CreateRecord
                         RecordingInfo::make(),
                         Placeholder::make('progress')
                             ->label(false)
-                            ->content(new HtmlString("<div class='flex items-center justify-center min-h-[100px]'><div class='block-loader'></div><span class='ml-4'>Uploading your audio file</span></div>"))
+                            ->content(new HtmlString(
+                                "<div class='flex flex-col items-center justify-center min-h-[100px] space-y-2'>"
+                                ."<div class='block-loader'></div>"
+                                ."<progress max='100' class='w-full' x-bind:value=\"uploadProgress\"></progress>"
+                                ."<span>Uploading your audio file</span>"
+                                ."</div>"
+                            ))
                             ->visible(fn($livewire) => $livewire->showProgress),
                     ])
                     ->footerActions([
