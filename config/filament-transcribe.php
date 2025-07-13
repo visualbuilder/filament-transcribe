@@ -1,4 +1,5 @@
 <?php
+use Filament\Pages\SubNavigationPosition;
 
 // config for Visualbuilder/FilamentTranscribe
 return [
@@ -147,7 +148,7 @@ return [
         'url'               => 'transcripts',
         'cluster'           => null,
         'sort'              => 1,
-        'subnav_position'   => null,
+        'subnav_position'   => SubNavigationPosition::Top
     ],
 
     'transcript_model'    => \Visualbuilder\FilamentTranscribe\Models\Transcript::class,
