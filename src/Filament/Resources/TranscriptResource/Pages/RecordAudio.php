@@ -15,7 +15,6 @@ use Visualbuilder\FilamentTranscribe\Filament\Resources\TranscriptResource;
 use Livewire\WithFileUploads;
 use Visualbuilder\FilamentTranscribe\Filament\Forms\Components\RecordingInfo;
 use Visualbuilder\FilamentTranscribe\Filament\Forms\Components\SoundCheck;
-use Illuminate\Support\HtmlString;
 
 class RecordAudio extends CreateRecord
 {
@@ -70,7 +69,7 @@ class RecordAudio extends CreateRecord
                         RecordingInfo::make(),
                         Placeholder::make('progress')
                             ->label(false)
-                            ->content(new HtmlString("<div class='flex items-center justify-center min-h-[100px]'><div class='block-loader'></div><span class='ml-4'>Uploading your audio file</span></div>"))
+                            ->content(fn() => view('filament-transcribe::components.upload_progress'))
                             ->visible(fn($livewire) => $livewire->showProgress),
                     ])
                     ->footerActions([
