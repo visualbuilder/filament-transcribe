@@ -36,3 +36,9 @@
 .vu-meter-bar.vu-green { background-color: #16a34a; }
 .vu-meter-bar.vu-amber { background-color: #d97706; }
 .vu-meter-bar.vu-red { background-color: #b91c1c; }
+
+/* Upload progress bar */
+.upload-progress-bar {
+    background-color: #14b8a6;
+    height: 10px;
+}
