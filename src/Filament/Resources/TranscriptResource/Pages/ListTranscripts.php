@@ -18,7 +18,9 @@ class ListTranscripts extends ListRecords
     {
         return [
             Actions\CreateAction::make()
+                ->label('Upload Audio File')
                 ->modalWidth(MaxWidth::FiveExtraLarge)
+                ->icon('heroicon-o-cloud-arrow-up')
                 ->modalSubmitActionLabel('Save and transcribe audio')
                 ->form(TranscriptResource::createTranscriptFields())
                 ->successNotificationTitle('Audio Uploaded Successfully')
