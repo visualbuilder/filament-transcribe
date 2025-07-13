@@ -117,7 +117,7 @@ class RecordAudio extends CreateRecord
 
         Storage::disk($disk)->delete($path);
 
-        //$this->redirect(TranscriptResource::getUrl('edit', ['record' => $transcript]));
+        $this->redirect(TranscriptResource::getUrl('edit', ['record' => $transcript]));
     }
 
     public function startLevelCheck(): void

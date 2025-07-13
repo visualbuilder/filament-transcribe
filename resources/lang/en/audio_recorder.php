@@ -5,7 +5,7 @@ return [
         'note' => 'Make sure when speaking the volume level is reaching at least 50%',
     ],
     'recording_session' => [
-        'title' => 'Recording Session in Progress',
+        'title' => 'Recording in Progress',
         'note_save' => 'When recording is finished a copy will be saved directly to your downloads folder.',
         'note_upload' => 'A copy will also be immediately uploaded for transcription.',
     ],
