@@ -5,7 +5,7 @@
 [![GitHub Code Style Action Status](https://img.shields.io/github/actions/workflow/status/visualbuilder/filament-transcribe/fix-php-code-style-issues.yml?branch=main&label=code%20style&style=flat-square)](https://github.com/visualbuilder/filament-transcribe/actions?query=workflow%3A"Fix+PHP+code+style+issues"+branch%3Amain)
 [![Total Downloads](https://img.shields.io/packagist/dt/visualbuilder/filament-transcribe.svg?style=flat-square)](https://packagist.org/packages/visualbuilder/filament-transcribe)
 
-This is where your description should go. Limit it to a paragraph or two. Consider adding a small example.
+Filament Transcribe integrates Amazon Transcribe with the Filament admin panel. Upload or record audio files and automatically convert them into text complete with speaker labels and optional PII redaction. Transcriptions run in queued jobs and progress can be broadcast to users in real time.
 
 ## Support us
 
