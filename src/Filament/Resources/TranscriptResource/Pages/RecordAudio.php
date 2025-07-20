@@ -10,7 +10,6 @@ use Filament\Forms\Components\Actions\Action;
 use Filament\Forms\Form;
 use Filament\Resources\Pages\CreateRecord;
 use Filament\Support\Enums\Alignment;
-use Illuminate\Support\Facades\Storage;
 use Visualbuilder\FilamentTranscribe\Filament\Resources\TranscriptResource;
 use Livewire\WithFileUploads;
 use Visualbuilder\FilamentTranscribe\Filament\Forms\Components\RecordingInfo;
@@ -98,24 +97,20 @@ class RecordAudio extends CreateRecord
             return;
         }
 
-        $disk = config('filament-transcribe.recordings.disk');
-        $dir  = trim(config('filament-transcribe.recordings.directory'), '/');
         $name = 'recording-' . now()->format('YmdHis') . '.webm';
-        $path = $this->recordingFile->storeAs($dir, $name, $disk);
-        $this->recordingFile = null;
-        $this->recording = false;
-        $this->checkingLevels = false;
 
         $model = TranscriptResource::getModel();
         $transcript = $model::create([
             'redact_pii' => $this->data['redact_pii'] ?? true,
         ]);
 
-        $transcript->addMedia(Storage::disk($disk)->path($path))
+        $transcript->addMedia($this->recordingFile->getRealPath())
             ->usingFileName($name)
             ->toMediaCollection('audio');
 
-        Storage::disk($disk)->delete($path);
+        $this->recordingFile = null;
+        $this->recording = false;
+        $this->checkingLevels = false;
 
         $this->redirect(TranscriptResource::getUrl('edit', ['record' => $transcript]));
     }
