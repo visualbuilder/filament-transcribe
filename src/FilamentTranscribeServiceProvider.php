@@ -1,12 +1,12 @@
 <?php
 
-namespace Visualbuilder\FilamentTranscribe;
+namespace VisualBuilder\FilamentTranscribe;
 
 use Filament\Support\Assets\Css;
 use Filament\Support\Facades\FilamentAsset;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
-use Visualbuilder\FilamentTranscribe\Commands\InstallCommand;
+use VisualBuilder\FilamentTranscribe\Commands\InstallCommand;
 
 class FilamentTranscribeServiceProvider extends PackageServiceProvider
 {

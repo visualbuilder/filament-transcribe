@@ -1,6 +1,6 @@
 <?php
 
-namespace Visualbuilder\FilamentTranscribe\Filament\Actions;
+namespace VisualBuilder\FilamentTranscribe\Filament\Actions;
 
 use Filament\Forms\Components\Actions\Action;
 use Filament\Support\Enums\ActionSize;

@@ -1,16 +1,16 @@
 <?php
 
-namespace Visualbuilder\FilamentTranscribe\Facades;
+namespace VisualBuilder\FilamentTranscribe\Facades;
 
 use Illuminate\Support\Facades\Facade;
 
 /**
- * @see \Visualbuilder\FilamentTranscribe\FilamentTranscribe
+ * @see \VisualBuilder\FilamentTranscribe\FilamentTranscribe
  */
 class FilamentTranscribe extends Facade
 {
     protected static function getFacadeAccessor(): string
     {
-        return \Visualbuilder\FilamentTranscribe\FilamentTranscribe::class;
+        return \VisualBuilder\FilamentTranscribe\FilamentTranscribe::class;
     }
 }

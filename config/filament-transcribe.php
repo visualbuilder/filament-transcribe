@@ -1,7 +1,7 @@
 <?php
 use Filament\Pages\SubNavigationPosition;
 
-// config for Visualbuilder/FilamentTranscribe
+// config for VisualBuilder/FilamentTranscribe
 return [
 
     /**
@@ -151,8 +151,8 @@ return [
         'subnav_position'   => SubNavigationPosition::Top
     ],
 
-    'transcript_model'    => \Visualbuilder\FilamentTranscribe\Models\Transcript::class,
-    'transcript_resource' => \Visualbuilder\FilamentTranscribe\Filament\Resources\TranscriptResource::class,
+    'transcript_model'    => \VisualBuilder\FilamentTranscribe\Models\Transcript::class,
+    'transcript_resource' => \VisualBuilder\FilamentTranscribe\Filament\Resources\TranscriptResource::class,
 
     /**
      * Which user classes will be available on the transcript owner morph select

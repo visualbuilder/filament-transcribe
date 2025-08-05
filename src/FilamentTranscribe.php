@@ -1,5 +1,5 @@
 <?php
 
-namespace Visualbuilder\FilamentTranscribe;
+namespace VisualBuilder\FilamentTranscribe;
 
 class FilamentTranscribe {}

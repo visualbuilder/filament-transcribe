@@ -100,8 +100,8 @@ When recording audio through the provided recorder, the browser will also save a
 ## Usage
 
 ```php
-$filamentTranscribe = new Visualbuilder\FilamentTranscribe();
-echo $filamentTranscribe->echoPhrase('Hello, Visualbuilder!');
+$filamentTranscribe = new VisualBuilder\FilamentTranscribe();
+echo $filamentTranscribe->echoPhrase('Hello, VisualBuilder!');
 ```
 
 ## Testing

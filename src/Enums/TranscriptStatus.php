@@ -1,6 +1,6 @@
 <?php
 
-namespace Visualbuilder\FilamentTranscribe\Enums;
+namespace VisualBuilder\FilamentTranscribe\Enums;
 
 use Filament\Support\Contracts\HasColor;
 use Filament\Support\Contracts\HasLabel;

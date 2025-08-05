@@ -1,16 +1,16 @@
 <?php
 
-namespace Visualbuilder\FilamentTranscribe\Filament\Resources\TranscriptResource\Pages;
+namespace VisualBuilder\FilamentTranscribe\Filament\Resources\TranscriptResource\Pages;
 
 
 use Filament\Actions;
 use Filament\Notifications\Notification;
 use Filament\Resources\Pages\EditRecord;
 use Livewire\Attributes\On;
-use Visualbuilder\FilamentTranscribe\Enums\TranscriptStatus;
+use VisualBuilder\FilamentTranscribe\Enums\TranscriptStatus;
 use VisualBuilder\FilamentTranscribe\Filament\Actions\TranscribeAction;
-use Visualbuilder\FilamentTranscribe\Filament\Resources\TranscriptResource;
-use Visualbuilder\FilamentTranscribe\Jobs\TranscribeAudioJob;
+use VisualBuilder\FilamentTranscribe\Filament\Resources\TranscriptResource;
+use VisualBuilder\FilamentTranscribe\Jobs\TranscribeAudioJob;
 
 class EditTranscript extends EditRecord
 {

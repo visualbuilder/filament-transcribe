@@ -5,10 +5,10 @@ namespace VisualBuilder\FilamentTranscribe\Filament\Actions;
 use Filament\Actions\Action;
 use Filament\Notifications\Notification;
 use Illuminate\Support\HtmlString;
-use Visualbuilder\FilamentTranscribe\Enums\TranscriptStatus;
-use Visualbuilder\FilamentTranscribe\Filament\Resources\TranscriptResource\Pages\EditTranscript;
-use Visualbuilder\FilamentTranscribe\Jobs\TranscribeAudioJob;
-use Visualbuilder\FilamentTranscribe\Models\Transcript;
+use VisualBuilder\FilamentTranscribe\Enums\TranscriptStatus;
+use VisualBuilder\FilamentTranscribe\Filament\Resources\TranscriptResource\Pages\EditTranscript;
+use VisualBuilder\FilamentTranscribe\Jobs\TranscribeAudioJob;
+use VisualBuilder\FilamentTranscribe\Models\Transcript;
 
 class TranscribeAction extends Action
 {

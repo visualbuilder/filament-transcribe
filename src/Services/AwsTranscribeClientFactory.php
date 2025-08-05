@@ -1,5 +1,5 @@
 <?php
-namespace Visualbuilder\FilamentTranscribe\Services;
+namespace VisualBuilder\FilamentTranscribe\Services;
 
 use Aws\TranscribeService\TranscribeServiceClient;
 

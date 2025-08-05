@@ -5,9 +5,9 @@ use Filament\Forms\Components\Toggle;
 use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Foundation\Auth\User;
-use Visualbuilder\FilamentTranscribe\Filament\Forms\Components\AudioPlayer;
-use Visualbuilder\FilamentTranscribe\Filament\Resources\TranscriptResource;
-use Visualbuilder\FilamentTranscribe\Models\Transcript;
+use VisualBuilder\FilamentTranscribe\Filament\Forms\Components\AudioPlayer;
+use VisualBuilder\FilamentTranscribe\Filament\Resources\TranscriptResource;
+use VisualBuilder\FilamentTranscribe\Models\Transcript;
 
 it('uses the Transcript model', function () {
     expect(TranscriptResource::getModel())->toBe(Transcript::class);

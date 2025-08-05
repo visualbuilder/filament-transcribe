@@ -1,6 +1,6 @@
 <?php
 
-namespace Visualbuilder\FilamentTranscribe\Filament\Forms\Components;
+namespace VisualBuilder\FilamentTranscribe\Filament\Forms\Components;
 
 use Filament\Forms\Components\Component;
 use Filament\Forms\Components\View;

@@ -1,6 +1,6 @@
 <?php
 
-namespace Visualbuilder\FilamentTranscribe\Enums;
+namespace VisualBuilder\FilamentTranscribe\Enums;
 
 trait EnumSubset {
 

@@ -1,13 +1,13 @@
 <?php
 
-namespace Visualbuilder\FilamentTranscribe;
+namespace VisualBuilder\FilamentTranscribe;
 
 use Closure;
 use Filament\Contracts\Plugin;
 use Filament\Pages\SubNavigationPosition;
 use Filament\Panel;
 use Filament\Support\Concerns\EvaluatesClosures;
-use Visualbuilder\FilamentTranscribe\Filament\Resources\TranscriptResource;
+use VisualBuilder\FilamentTranscribe\Filament\Resources\TranscriptResource;
 
 
 class FilamentTranscribePlugin implements Plugin

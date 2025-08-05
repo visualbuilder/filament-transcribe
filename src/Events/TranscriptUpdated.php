@@ -1,6 +1,6 @@
 <?php
 
-namespace Visualbuilder\FilamentTranscribe\Events;
+namespace VisualBuilder\FilamentTranscribe\Events;
 
 
 use Illuminate\Broadcasting\Channel;
@@ -10,7 +10,7 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcastNow;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
-use Visualbuilder\FilamentTranscribe\Models\Transcript;
+use VisualBuilder\FilamentTranscribe\Models\Transcript;
 
 class TranscriptUpdated implements ShouldBroadcast
 {

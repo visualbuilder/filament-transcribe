@@ -1,6 +1,6 @@
 <?php
 
-namespace Visualbuilder\FilamentTranscribe\Filament\Resources;
+namespace VisualBuilder\FilamentTranscribe\Filament\Resources;
 
 use Filament\Forms\Components\Grid;
 use Filament\Forms\Components\Placeholder;
@@ -18,13 +18,13 @@ use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Support\HtmlString;
 use Visualbuilder\FilamentTinyEditor\TinyEditor;
-use Visualbuilder\FilamentTranscribe\Enums\TranscriptStatus;
-use Visualbuilder\FilamentTranscribe\Filament\Actions\StatusBadge;
-use Visualbuilder\FilamentTranscribe\Filament\Fields\AudioUploadField;
-use Visualbuilder\FilamentTranscribe\Filament\Fields\OwnerMorphSelectField;
-use Visualbuilder\FilamentTranscribe\Filament\Forms\Components\AudioPlayer;
-use Visualbuilder\FilamentTranscribe\Filament\Resources\TranscriptResource\Pages;
-use Visualbuilder\FilamentTranscribe\Models\Transcript;
+use VisualBuilder\FilamentTranscribe\Enums\TranscriptStatus;
+use VisualBuilder\FilamentTranscribe\Filament\Actions\StatusBadge;
+use VisualBuilder\FilamentTranscribe\Filament\Fields\AudioUploadField;
+use VisualBuilder\FilamentTranscribe\Filament\Fields\OwnerMorphSelectField;
+use VisualBuilder\FilamentTranscribe\Filament\Forms\Components\AudioPlayer;
+use VisualBuilder\FilamentTranscribe\Filament\Resources\TranscriptResource\Pages;
+use VisualBuilder\FilamentTranscribe\Models\Transcript;
 
 class TranscriptResource extends Resource
 {

@@ -1,14 +1,14 @@
 <?php
 
-namespace Visualbuilder\FilamentTranscribe\Filament\Resources\TranscriptResource\Pages;
+namespace VisualBuilder\FilamentTranscribe\Filament\Resources\TranscriptResource\Pages;
 
 
 use Filament\Actions;
 use Filament\Resources\Pages\ListRecords;
 use Filament\Support\Enums\Alignment;
 use Filament\Support\Enums\MaxWidth;
-use Visualbuilder\FilamentTranscribe\Filament\Resources\TranscriptResource;
-use Visualbuilder\FilamentTranscribe\Models\Transcript;
+use VisualBuilder\FilamentTranscribe\Filament\Resources\TranscriptResource;
+use VisualBuilder\FilamentTranscribe\Models\Transcript;
 
 class ListTranscripts extends ListRecords
 {

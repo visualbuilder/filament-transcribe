@@ -3,7 +3,7 @@
 namespace App\Filament\Resources\TranscriptResource\Pages;
 
 use Filament\Resources\Pages\CreateRecord;
-use Visualbuilder\FilamentTranscribe\Filament\Resources\TranscriptResource;
+use VisualBuilder\FilamentTranscribe\Filament\Resources\TranscriptResource;
 
 class CreateTranscript extends CreateRecord
 {

@@ -1,11 +1,11 @@
 <?php
-namespace Visualbuilder\FilamentTranscribe\Models;
+namespace VisualBuilder\FilamentTranscribe\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
-use Visualbuilder\FilamentTranscribe\Enums\TranscriptStatus;
+use VisualBuilder\FilamentTranscribe\Enums\TranscriptStatus;
 
 class Transcript extends Model implements HasMedia
 {

@@ -38,9 +38,9 @@
     },
     "autoload": {
         "psr-4": {
-            "Visualbuilder\\FilamentTranscribe\\": "src/",
-            "Visualbuilder\\FilamentTranscribe\\Database\\Factories\\": "database/factories/",
-            "Visualbuilder\\FilamentTranscribe\\Database\\Migrations\\": "database/migrations/"
+            "VisualBuilder\\FilamentTranscribe\\": "src/",
+            "VisualBuilder\\FilamentTranscribe\\Database\\Factories\\": "database/factories/",
+            "VisualBuilder\\FilamentTranscribe\\Database\\Migrations\\": "database/migrations/"
         },
         "files": [
             "src/Support/Helpers.php"
@@ -48,7 +48,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Visualbuilder\\FilamentTranscribe\\Tests\\": "tests/",
+            "VisualBuilder\\FilamentTranscribe\\Tests\\": "tests/",
             "Workbench\\App\\": "workbench/app/"
         }
     },
@@ -70,10 +70,10 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Visualbuilder\\FilamentTranscribe\\FilamentTranscribeServiceProvider"
+                "VisualBuilder\\FilamentTranscribe\\FilamentTranscribeServiceProvider"
             ],
             "aliases": {
-                "FilamentTranscribe": "Visualbuilder\\FilamentTranscribe\\Facades\\FilamentTranscribe"
+                "FilamentTranscribe": "VisualBuilder\\FilamentTranscribe\\Facades\\FilamentTranscribe"
             }
         }
     },

@@ -1,6 +1,6 @@
 <?php
 
-namespace Visualbuilder\FilamentTranscribe\Filament\Fields;
+namespace VisualBuilder\FilamentTranscribe\Filament\Fields;
 
 use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 use Illuminate\Support\HtmlString;

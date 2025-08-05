@@ -1,6 +1,6 @@
 <?php
 
-namespace Visualbuilder\FilamentTranscribe\Commands;
+namespace VisualBuilder\FilamentTranscribe\Commands;
 
 use Illuminate\Console\Command;
 

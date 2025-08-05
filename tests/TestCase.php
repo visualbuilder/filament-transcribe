@@ -1,10 +1,10 @@
 <?php
 
-namespace Visualbuilder\FilamentTranscribe\Tests;
+namespace VisualBuilder\FilamentTranscribe\Tests;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Orchestra\Testbench\TestCase as Orchestra;
-use Visualbuilder\FilamentTranscribe\FilamentTranscribeServiceProvider;
+use VisualBuilder\FilamentTranscribe\FilamentTranscribeServiceProvider;
 
 class TestCase extends Orchestra
 {
@@ -13,7 +13,7 @@ class TestCase extends Orchestra
         parent::setUp();
 
         Factory::guessFactoryNamesUsing(
-            fn (string $modelName) => 'Visualbuilder\\FilamentTranscribe\\Database\\Factories\\'.class_basename($modelName).'Factory'
+            fn (string $modelName) => 'VisualBuilder\\FilamentTranscribe\\Database\\Factories\\'.class_basename($modelName).'Factory'
         );
     }
 

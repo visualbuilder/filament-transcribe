@@ -1,6 +1,6 @@
 <?php
 
-namespace Visualbuilder\FilamentTranscribe\Jobs;
+namespace VisualBuilder\FilamentTranscribe\Jobs;
 
 use Aws\TranscribeService\TranscribeServiceClient;
 use Illuminate\Bus\Queueable;
@@ -9,10 +9,10 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Log;
-use Visualbuilder\FilamentTranscribe\Enums\TranscriptStatus;
-use Visualbuilder\FilamentTranscribe\Events\TranscriptUpdated;
-use Visualbuilder\FilamentTranscribe\Models\Transcript;
-use Visualbuilder\FilamentTranscribe\Services\AwsTranscribeClientFactory;
+use VisualBuilder\FilamentTranscribe\Enums\TranscriptStatus;
+use VisualBuilder\FilamentTranscribe\Events\TranscriptUpdated;
+use VisualBuilder\FilamentTranscribe\Models\Transcript;
+use VisualBuilder\FilamentTranscribe\Services\AwsTranscribeClientFactory;
 
 class TranscribeAudioJob implements ShouldQueue
 {

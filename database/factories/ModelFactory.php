@@ -1,6 +1,6 @@
 <?php
 
-namespace Visualbuilder\FilamentTranscribe\Database\Factories;
+namespace VisualBuilder\FilamentTranscribe\Database\Factories;
 
 /*
 class ModelFactory extends Factory

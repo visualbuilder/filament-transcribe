@@ -1,5 +1,5 @@
 <?php
-namespace Visualbuilder\FilamentTranscribe\Jobs;
+namespace VisualBuilder\FilamentTranscribe\Jobs;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -8,10 +8,10 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
-use Visualbuilder\FilamentTranscribe\Enums\TranscriptStatus;
-use Visualbuilder\FilamentTranscribe\Events\TranscriptUpdated;
-use Visualbuilder\FilamentTranscribe\Models\Transcript;
-use Visualbuilder\FilamentTranscribe\Services\AwsTranscribeClientFactory;
+use VisualBuilder\FilamentTranscribe\Enums\TranscriptStatus;
+use VisualBuilder\FilamentTranscribe\Events\TranscriptUpdated;
+use VisualBuilder\FilamentTranscribe\Models\Transcript;
+use VisualBuilder\FilamentTranscribe\Services\AwsTranscribeClientFactory;
 
 class PollTranscriptionJob implements ShouldQueue
 {

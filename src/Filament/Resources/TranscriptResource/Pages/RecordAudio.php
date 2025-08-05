@@ -1,6 +1,6 @@
 <?php
 
-namespace Visualbuilder\FilamentTranscribe\Filament\Resources\TranscriptResource\Pages;
+namespace VisualBuilder\FilamentTranscribe\Filament\Resources\TranscriptResource\Pages;
 
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Toggle;
@@ -11,10 +11,10 @@ use Filament\Forms\Form;
 use Filament\Resources\Pages\CreateRecord;
 use Filament\Support\Enums\Alignment;
 use Illuminate\Support\Facades\Storage;
-use Visualbuilder\FilamentTranscribe\Filament\Resources\TranscriptResource;
+use VisualBuilder\FilamentTranscribe\Filament\Resources\TranscriptResource;
 use Livewire\WithFileUploads;
-use Visualbuilder\FilamentTranscribe\Filament\Forms\Components\RecordingInfo;
-use Visualbuilder\FilamentTranscribe\Filament\Forms\Components\SoundCheck;
+use VisualBuilder\FilamentTranscribe\Filament\Forms\Components\RecordingInfo;
+use VisualBuilder\FilamentTranscribe\Filament\Forms\Components\SoundCheck;
 
 class RecordAudio extends CreateRecord
 {

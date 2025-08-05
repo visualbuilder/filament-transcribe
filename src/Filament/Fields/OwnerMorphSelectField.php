@@ -1,6 +1,6 @@
 <?php
 
-namespace Visualbuilder\FilamentTranscribe\Filament\Fields;
+namespace VisualBuilder\FilamentTranscribe\Filament\Fields;
 
 use Filament\Forms\Components\MorphToSelect;
 use Filament\Forms\Get;
