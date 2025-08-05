@@ -8,7 +8,7 @@ use Filament\Notifications\Notification;
 use Filament\Resources\Pages\EditRecord;
 use Livewire\Attributes\On;
 use Visualbuilder\FilamentTranscribe\Enums\TranscriptStatus;
-use VisualBuilder\FilamentTranscribe\Filament\Actions\TranscribeAction;
+use Visualbuilder\FilamentTranscribe\Filament\Actions\TranscribeAction;
 use Visualbuilder\FilamentTranscribe\Filament\Resources\TranscriptResource;
 use Visualbuilder\FilamentTranscribe\Jobs\TranscribeAudioJob;
 

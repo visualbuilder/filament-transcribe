@@ -1,6 +1,6 @@
 <?php
 
-namespace VisualBuilder\FilamentTranscribe\Filament\Actions;
+namespace Visualbuilder\FilamentTranscribe\Filament\Actions;
 
 use Filament\Actions\Action;
 use Filament\Notifications\Notification;
