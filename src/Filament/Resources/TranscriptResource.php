@@ -2,6 +2,9 @@
 
 namespace Visualbuilder\FilamentTranscribe\Filament\Resources;
 
+use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteBulkAction;
+use Filament\Actions\EditAction;
 use Filament\Forms\Components\Placeholder;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\RichEditor;
@@ -127,21 +130,21 @@ class TranscriptResource extends Resource
                 ->label(false)
                 ->hiddenOn('create')
                 ->content(new HtmlString("<div class='flex items-center justify-center min-h-[100px]'><div class='block-loader'></div><span class='ml-4'>Transcribing in progress</span></div>"))
-                ->visible(fn ($livewire) => $livewire->showProgress ?? false),
+                ->visible(fn($livewire) => $livewire->showProgress ?? false),
 
             RichEditor::make('transcribed_html')
                 ->label('Transcription')
                 ->live()
                 ->hiddenOn('create')
                 ->placeholder('This will be automatically filled by a background process.')
-                ->visible(fn (Get $get) => $get('audio'))
+                ->visible(fn(Get $get) => $get('audio'))
                 ->nullable(),
 
             // Create echo listener for broadcast event notifying that the transcript is complete
             ViewField::make('transcript_echo')
                 ->hiddenOn('create')
                 ->view('filament-transcribe::components.transcript_echo')
-                ->viewData(fn ($record): array => ['transcriptId' => $record?->id]),
+                ->viewData(fn($record): array => ['transcriptId' => $record?->id]),
         ];
     }
 
@@ -173,15 +176,15 @@ class TranscriptResource extends Resource
                     ->searchable(),
                 Tables\Columns\TextColumn::make('status')
                     ->badge()
-                    ->formatStateUsing(fn ($state) => TranscriptStatus::from($state->value)->getLabel())
-                    ->color(fn ($state) => TranscriptStatus::from($state->value)->getColor()),
+                    ->formatStateUsing(fn($state) => TranscriptStatus::from($state->value)->getLabel())
+                    ->color(fn($state) => TranscriptStatus::from($state->value)->getColor()),
             ])
-            ->actions([
-                Tables\Actions\EditAction::make(),
+            ->recordActions([
+                EditAction::make(),
             ])
-            ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+            ->toolbarActions([
+                    BulkActionGroup::make([
+                    DeleteBulkAction::make(),
                 ]),
             ]);
     }
@@ -189,9 +192,9 @@ class TranscriptResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListTranscripts::route('/'),
+            'index'  => Pages\ListTranscripts::route('/'),
             'record' => Pages\RecordAudio::route('/record'),
-            'edit' => Pages\EditTranscript::route('/{record}/edit'),
+            'edit'   => Pages\EditTranscript::route('/{record}/edit'),
         ];
     }
 }

@@ -3,8 +3,9 @@
 namespace Visualbuilder\FilamentTranscribe\Filament\Fields;
 
 use Filament\Forms\Components\MorphToSelect;
-use Filament\Forms\Get;
-use Filament\Forms\Set;
+use Filament\Schemas\Components\Utilities\Get;
+use Filament\Schemas\Components\Utilities\Set;
+
 
 class OwnerMorphSelectField
 {

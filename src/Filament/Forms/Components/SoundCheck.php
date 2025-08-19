@@ -2,7 +2,8 @@
 
 namespace Visualbuilder\FilamentTranscribe\Filament\Forms\Components;
 
-use Filament\Forms\Components\Component;
+
+use Filament\Schemas\Components\Component;
 
 class SoundCheck extends Component
 {
