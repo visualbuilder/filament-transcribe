@@ -4,11 +4,10 @@ namespace Visualbuilder\FilamentTranscribe;
 
 use Closure;
 use Filament\Contracts\Plugin;
-use Filament\Pages\SubNavigationPosition;
+use Filament\Pages\Enums\SubNavigationPosition;
 use Filament\Panel;
 use Filament\Support\Concerns\EvaluatesClosures;
 use Visualbuilder\FilamentTranscribe\Filament\Resources\TranscriptResource;
-
 
 class FilamentTranscribePlugin implements Plugin
 {
@@ -18,15 +17,20 @@ class FilamentTranscribePlugin implements Plugin
 
     // Navigation properties that can be overridden
     protected ?string $navigationGroup = null;
+
     protected ?string $navigationLabel = null;
+
     protected ?string $navigationIcon = null;
+
     protected ?string $navigationUrl = null;
+
     protected ?int $navigationSort = null;
+
     protected ?bool $navigationVisibleOnNavbar = null;
+
     protected ?string $navigationCluster = null;
+
     protected ?SubNavigationPosition $navigationSubnavPosition = null;
-
-
 
     public static function make(): static
     {
@@ -65,48 +69,56 @@ class FilamentTranscribePlugin implements Plugin
     public function navigationGroup(?string $navigationGroup): static
     {
         $this->navigationGroup = $navigationGroup;
+
         return $this;
     }
 
     public function navigationLabel(string $label): static
     {
         $this->navigationLabel = $label;
+
         return $this;
     }
 
     public function navigationIcon(string $icon): static
     {
         $this->navigationIcon = $icon;
+
         return $this;
     }
 
     public function navigationUrl(string $url): static
     {
         $this->navigationUrl = $url;
+
         return $this;
     }
 
     public function navigationSort(int $sort): static
     {
         $this->navigationSort = $sort;
+
         return $this;
     }
 
     public function navigationVisibleOnNavbar(bool $visible): static
     {
         $this->navigationVisibleOnNavbar = $visible;
+
         return $this;
     }
 
     public function cluster(?string $cluster): static
     {
         $this->cluster = $cluster;
+
         return $this;
     }
 
     public function navigationSubnavPosition(SubNavigationPosition $position): static
     {
         $this->navigationSubnavPosition = $position;
+
         return $this;
     }
 

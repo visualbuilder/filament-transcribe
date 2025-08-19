@@ -2,16 +2,14 @@
 
 namespace Visualbuilder\FilamentTranscribe\Filament\Forms\Components;
 
-use Filament\Forms\Components\Component;
-use Filament\Forms\Components\View;
+use Filament\Forms\Components\ViewField;
 
-class AudioPlayer extends Component
+class AudioPlayer extends ViewField
 {
-
     protected string $view = 'filament-transcribe::components.audio_player';
 
-    public static function make(string $name = 'audioPlayer'): static
+    public static function make(?string $name = 'audioPlayer'): static
     {
-        return app(static::class);
+        return parent::make($name);
     }
 }

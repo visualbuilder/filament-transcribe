@@ -1,10 +1,10 @@
 <?php
 
-use Filament\Pages\SubNavigationPosition;
-use Filament\Forms\Components\Toggle;
 use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
-use Illuminate\Support\Facades\Auth;
+use Filament\Forms\Components\Toggle;
+use Filament\Pages\Enums\SubNavigationPosition;
 use Illuminate\Foundation\Auth\User;
+use Illuminate\Support\Facades\Auth;
 use Visualbuilder\FilamentTranscribe\Filament\Forms\Components\AudioPlayer;
 use Visualbuilder\FilamentTranscribe\Filament\Resources\TranscriptResource;
 use Visualbuilder\FilamentTranscribe\Models\Transcript;
@@ -22,20 +22,14 @@ it('provides create transcript fields', function () {
 });
 
 it('provides edit transcript fields', function () {
-    $user = new User();
+    $user = new User;
     $user->id = 1;
     $user->email = 'test@example.com';
     $user->name = 'Test User';
     $user->exists = true;
     Auth::login($user);
 
-    $form = Mockery::mock(\Filament\Forms\Form::class);
-    $record = new Transcript();
-    $record->id = 1;
-    $record->exists = true;
-    $form->shouldReceive('getRecord')->andReturn($record);
-
-    $fields = TranscriptResource::editTranscriptFields($form);
+    $fields = TranscriptResource::editTranscriptFields();
 
     expect($fields)->toHaveCount(5)
         ->and($fields[0])->toBeInstanceOf(AudioPlayer::class);

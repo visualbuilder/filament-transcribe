@@ -2,28 +2,30 @@
 
 namespace Visualbuilder\FilamentTranscribe\Filament\Resources\TranscriptResource\Pages;
 
+use Filament\Actions\Action;
+use Filament\Forms\Components\Placeholder;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Toggle;
-use Filament\Forms\Components\Placeholder;
-use Filament\Forms\Components\Section;
-use Filament\Forms\Components\Actions\Action;
-use Filament\Forms\Form;
 use Filament\Resources\Pages\CreateRecord;
+use Filament\Schemas\Components\Section;
+use Filament\Schemas\Schema;
 use Filament\Support\Enums\Alignment;
 use Illuminate\Support\Facades\Storage;
-use Visualbuilder\FilamentTranscribe\Filament\Resources\TranscriptResource;
 use Livewire\WithFileUploads;
 use Visualbuilder\FilamentTranscribe\Filament\Forms\Components\RecordingInfo;
 use Visualbuilder\FilamentTranscribe\Filament\Forms\Components\SoundCheck;
+use Visualbuilder\FilamentTranscribe\Filament\Resources\TranscriptResource;
 
 class RecordAudio extends CreateRecord
 {
     use WithFileUploads;
+
     protected static string $resource = TranscriptResource::class;
 
-    protected static string $view = 'filament-transcribe::pages.record-audio';
+    protected string $view = 'filament-transcribe::pages.record-audio';
 
     public ?array $data = [];
+
     /**
      * Temporary uploaded audio file.
      */
@@ -44,14 +46,9 @@ class RecordAudio extends CreateRecord
      */
     public bool $showProgress = false;
 
-    public function mount(): void
+    public function form(Schema $schema): Schema
     {
-        $this->form->fill();
-    }
-
-    public function form(Form $form): Form
-    {
-        return $form
+        return $schema
             ->schema([
                 Section::make('Record Session')
                     ->schema([
@@ -60,34 +57,34 @@ class RecordAudio extends CreateRecord
                             ->native()
                             ->options([])
                             ->required()
-                            ->visible(fn($livewire) => ! $livewire->recording && ! $livewire->checkingLevels && ! $livewire->showProgress),
+                            ->visible(fn ($livewire) => ! $livewire->recording && ! $livewire->checkingLevels && ! $livewire->showProgress),
                         Toggle::make('redact_pii')
                             ->default(true)
                             ->label('Redact Personally Identifiable Information')
-                            ->visible(fn($livewire) => ! $livewire->recording && ! $livewire->checkingLevels && ! $livewire->showProgress),
+                            ->visible(fn ($livewire) => ! $livewire->recording && ! $livewire->checkingLevels && ! $livewire->showProgress),
                         SoundCheck::make(),
                         RecordingInfo::make(),
                         Placeholder::make('progress')
                             ->label(false)
-                            ->content(fn() => view('filament-transcribe::components.upload_progress'))
-                            ->visible(fn($livewire) => $livewire->showProgress),
+                            ->content(fn () => view('filament-transcribe::components.upload_progress'))
+                            ->visible(fn ($livewire) => $livewire->showProgress),
                     ])
                     ->footerActions([
                         Action::make('check_levels')
                             ->label(__('vb-transcribe::audio_recorder.buttons.check_levels'))
-                            ->visible(fn($livewire) => ! $livewire->recording && ! $livewire->checkingLevels && ! $livewire->showProgress)
+                            ->visible(fn ($livewire) => ! $livewire->recording && ! $livewire->checkingLevels && ! $livewire->showProgress)
                             ->action('startLevelCheck'),
                         Action::make('start_recording')
                             ->icon('heroicon-m-microphone')
                             ->label(__('vb-transcribe::audio_recorder.buttons.start_recording'))
-                            ->visible(fn($livewire) => $livewire->checkingLevels)
+                            ->visible(fn ($livewire) => $livewire->checkingLevels)
                             ->action('startRecording'),
                         Action::make('stop_recording')
                             ->label(__('vb-transcribe::audio_recorder.buttons.stop'))
                             ->icon('fas-circle-stop')
-                            ->visible(fn($livewire) => $livewire->recording)
+                            ->visible(fn ($livewire) => $livewire->recording)
                             ->action('stopRecording'),
-                    ])->footerActionsAlignment(Alignment::Center)
+                    ])->footerActionsAlignment(Alignment::Center),
             ])
             ->statePath('data');
     }
@@ -99,8 +96,8 @@ class RecordAudio extends CreateRecord
         }
 
         $disk = config('filament-transcribe.recordings.disk');
-        $dir  = trim(config('filament-transcribe.recordings.directory'), '/');
-        $name = 'recording-' . now()->format('YmdHis') . '.webm';
+        $dir = trim(config('filament-transcribe.recordings.directory'), '/');
+        $name = 'recording-'.now()->format('YmdHis').'.webm';
         $path = $this->recordingFile->storeAs($dir, $name, $disk);
         $this->recordingFile = null;
         $this->recording = false;
@@ -110,7 +107,6 @@ class RecordAudio extends CreateRecord
         $transcript = $model::create([
             'redact_pii' => $this->data['redact_pii'] ?? true,
         ]);
-
 
         $transcript->addMedia(Storage::disk($disk)->path($path))
             ->usingFileName($name)
