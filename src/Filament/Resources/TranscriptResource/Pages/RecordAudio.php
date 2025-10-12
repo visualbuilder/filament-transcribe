@@ -51,6 +51,7 @@ class RecordAudio extends CreateRecord
         return $schema
             ->schema([
                 Section::make('Record Session')
+                    ->columnSpanFull()
                     ->schema([
                         Select::make('device')
                             ->label('Audio Source')

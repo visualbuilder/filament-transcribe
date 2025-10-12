@@ -21,7 +21,7 @@ class PollTranscriptionJob implements ShouldQueue
     /**
      * Create a new job instance.
      */
-    public function __construct(protected Transcript $transcript, protected  string $jobName)
+    public function __construct(protected Transcript $transcript, protected  string $jobName, protected int $pollCount = 0)
     {}
 
     /**
@@ -47,9 +47,41 @@ class PollTranscriptionJob implements ShouldQueue
         } elseif ($status === 'FAILED') {
             $this->failTranscript("Transcription Failed. ".print_r($job, true));
         } else {
-            // If still in progress, re-dispatch this job to check again later
-            self::dispatch($this->transcript, $this->jobName)->delay(now()->addSeconds(5));
+            // If still in progress, re-dispatch with exponential backoff
+            $nextPollCount = $this->pollCount + 1;
+            $delaySeconds = $this->calculateBackoffDelay($nextPollCount);
+
+            self::dispatch($this->transcript, $this->jobName, $nextPollCount)
+                ->delay(now()->addSeconds($delaySeconds));
         }
+    }
+
+    /**
+     * Calculate exponential backoff delay using a smooth logarithmic curve
+     *
+     * Formula: delay = min(maxDelay, baseDelay * (1 + log(pollCount + 1)))
+     *
+     * This creates a smooth exponential backoff:
+     * - Poll 1: 5s
+     * - Poll 2: 8s
+     * - Poll 3: 10s
+     * - Poll 5: 13s
+     * - Poll 10: 17s
+     * - Poll 20: 21s
+     * - Poll 50: 24s
+     * - Poll 100+: Caps at 60s
+     */
+    private function calculateBackoffDelay(int $pollCount): int
+    {
+        $baseDelay = 5;      // Starting delay in seconds
+        $maxDelay = 60;      // Maximum delay cap in seconds
+        $growthFactor = 6;   // Controls how quickly the delay increases
+
+        // Logarithmic exponential backoff formula
+        $delay = $baseDelay * (1 + log($pollCount + 1, M_E) * $growthFactor / 10);
+
+        // Cap at maximum delay
+        return (int) min($maxDelay, ceil($delay));
     }
 
     /**

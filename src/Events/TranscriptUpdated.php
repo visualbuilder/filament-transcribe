@@ -12,7 +12,7 @@ use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 use Visualbuilder\FilamentTranscribe\Models\Transcript;
 
-class TranscriptUpdated implements ShouldBroadcast
+class TranscriptUpdated implements ShouldBroadcastNow
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
@@ -42,5 +42,20 @@ class TranscriptUpdated implements ShouldBroadcast
     public function broadcastAs(): string
     {
         return 'transcript.updated';
+    }
+
+    /**
+     * Get the data to broadcast.
+     */
+    public function broadcastWith(): array
+    {
+        return [
+            'transcript' => [
+                'id' => $this->transcript->id,
+                'status' => $this->transcript->status,
+                'transcribed_html' => $this->transcript->transcribed_html,
+                'transcribed_text' => $this->transcript->transcribed_text,
+            ],
+        ];
     }
 }
