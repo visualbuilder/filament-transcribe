@@ -26,6 +26,8 @@ class TranscribeAudioJob implements ShouldQueue
     public function __construct(Transcript $transcript)
     {
         $this->transcript = $transcript;
+        $this->onConnection('database');
+        $this->onQueue('transcription');
     }
 
     /**

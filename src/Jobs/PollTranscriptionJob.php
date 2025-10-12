@@ -17,12 +17,14 @@ class PollTranscriptionJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-
     /**
      * Create a new job instance.
      */
     public function __construct(protected Transcript $transcript, protected  string $jobName, protected int $pollCount = 0)
-    {}
+    {
+        $this->onConnection('database');
+        $this->onQueue('transcription');
+    }
 
     /**
      * Execute the job.
@@ -50,7 +52,7 @@ class PollTranscriptionJob implements ShouldQueue
             // If still in progress, re-dispatch with exponential backoff
             $nextPollCount = $this->pollCount + 1;
             $delaySeconds = $this->calculateBackoffDelay($nextPollCount);
-
+            Log::info("Next Poll in $delaySeconds seconds");
             self::dispatch($this->transcript, $this->jobName, $nextPollCount)
                 ->delay(now()->addSeconds($delaySeconds));
         }
@@ -93,6 +95,7 @@ class PollTranscriptionJob implements ShouldQueue
      */
     private function handleJobCompletion()
     {
+        Log::info('Job complete '.$this->jobName);
         $jsonKey = ($this->transcript->redact_pii?'redacted-':''). $this->jobName . '.json';
 
         if (! Storage::disk(config('filament-transcribe.aws.transcribe.outputDisk'))->exists($jsonKey)) {
@@ -105,7 +108,7 @@ class PollTranscriptionJob implements ShouldQueue
 
         // 1) Plain text
         $transcribedText = $data['results']['transcripts'][0]['transcript'] ?? '';
-
+        Log::info('Job text: '.$transcribedText);
         // 2) Build HTML by audio segments + get duration in minutes
         [$finalHtml, $durationSeconds] = $this->generateHtmlByAudioSegments($data);
 
