@@ -53,8 +53,6 @@ class TranscriptUpdated implements ShouldBroadcastNow
             'transcript' => [
                 'id' => $this->transcript->id,
                 'status' => $this->transcript->status,
-                'transcribed_html' => $this->transcript->transcribed_html,
-                'transcribed_text' => $this->transcript->transcribed_text,
             ],
         ];
     }
