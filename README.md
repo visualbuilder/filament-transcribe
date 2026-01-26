@@ -12,12 +12,23 @@ Filament Transcribe integrates Amazon Transcribe with the Filament admin panel. 
 [<img src="https://github-ads.s3.eu-central-1.amazonaws.com/filament-transcribe.jpg?t=1" width="419px" />](https://spatie.be/github-ad-click/filament-transcribe)
 
 
+## Version Compatibility
+
+| Package Version | Filament | Laravel | PHP |
+|-----------------|----------|---------|-----|
+| 5.x | 5.x | 11.x, 12.x | 8.2+ |
+| 4.x | 4.x | 11.x | 8.2+ |
+
 ## Installation
 
 You can install the package via composer:
 
 ```bash
-composer require visualbuilder/filament-transcribe
+# For Filament 5.x
+composer require visualbuilder/filament-transcribe:^5.0
+
+# For Filament 4.x
+composer require visualbuilder/filament-transcribe:^4.0
 ```
 
 You can publish config, views and migrations with:
@@ -99,10 +110,21 @@ When recording audio through the provided recorder, the browser will also save a
 
 ## Usage
 
+Register the plugin in your Filament panel provider:
+
 ```php
-$filamentTranscribe = new Visualbuilder\FilamentTranscribe();
-echo $filamentTranscribe->echoPhrase('Hello, Visualbuilder!');
+use Visualbuilder\FilamentTranscribe\FilamentTranscribePlugin;
+
+public function panel(Panel $panel): Panel
+{
+    return $panel
+        ->plugins([
+            FilamentTranscribePlugin::make(),
+        ]);
+}
 ```
+
+The plugin provides a Transcript resource where users can upload audio files or record directly in the browser. Transcriptions are processed via Amazon Transcribe in background jobs.
 
 ## Testing
 
@@ -126,7 +148,7 @@ Please review [our security policy](../../security/policy) on how to report secu
 
 - [Visual Builder](https://github.com/visualbuilder)
 - [All Contributors](../../contributors)
-+
+
 ## License
 
 The MIT License (MIT). Please see [License File](LICENSE.md) for more information.
