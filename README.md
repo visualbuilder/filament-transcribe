@@ -2,14 +2,17 @@
 
 ![Packagist Version](https://img.shields.io/packagist/v/visualbuilder/filament-transcribe)
 [![run-tests](https://github.com/visualbuilder/filament-transcribe/actions/workflows/run-tests.yml/badge.svg)](https://github.com/visualbuilder/filament-transcribe/actions/workflows/run-tests.yml)
-[![GitHub Code Style Action Status](https://img.shields.io/github/actions/workflow/status/visualbuilder/filament-transcribe/fix-php-code-style-issues.yml?branch=main&label=code%20style&style=flat-square)](https://github.com/visualbuilder/filament-transcribe/actions?query=workflow%3A"Fix+PHP+code+style+issues"+branch%3Amain)
+[![GitHub Code Style Action Status](https://img.shields.io/github/actions/workflow/status/visualbuilder/filament-transcribe/fix-php-code-style-issues.yml?branch=5.x&label=code%20style&style=flat-square)](https://github.com/visualbuilder/filament-transcribe/actions?query=workflow%3A"Fix+PHP+code+style+issues"+branch%3A5.x)
 [![Total Downloads](https://img.shields.io/packagist/dt/visualbuilder/filament-transcribe.svg?style=flat-square)](https://packagist.org/packages/visualbuilder/filament-transcribe)
 
 Filament Transcribe integrates Amazon Transcribe with the Filament admin panel. Upload or record audio files and automatically convert them into text complete with speaker labels and optional PII redaction. Transcriptions run in queued jobs and progress can be broadcast to users in real time.
 
-## Support us
+## Version Compatibility
 
-[<img src="https://github-ads.s3.eu-central-1.amazonaws.com/filament-transcribe.jpg?t=1" width="419px" />](https://spatie.be/github-ad-click/filament-transcribe)
+| Package Version | Filament | Laravel | PHP |
+|-----------------|----------|---------|-----|
+| 5.x | 5.x | 11.x, 12.x | 8.2+ |
+| 4.x | 4.x | 11.x | 8.2+ |
 
 
 ## Installation
@@ -17,7 +20,11 @@ Filament Transcribe integrates Amazon Transcribe with the Filament admin panel. 
 You can install the package via composer:
 
 ```bash
-composer require visualbuilder/filament-transcribe
+# For Filament 5.x
+composer require visualbuilder/filament-transcribe:^5.0
+
+# For Filament 4.x
+composer require visualbuilder/filament-transcribe:^4.0
 ```
 
 You can publish config, views and migrations with:
@@ -126,7 +133,7 @@ Please review [our security policy](../../security/policy) on how to report secu
 
 - [Visual Builder](https://github.com/visualbuilder)
 - [All Contributors](../../contributors)
-+
+
 ## License
 
 The MIT License (MIT). Please see [License File](LICENSE.md) for more information.
